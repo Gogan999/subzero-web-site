@@ -28,6 +28,12 @@ const year = new Date().getFullYear();
         <a href={site.social.instagram} rel="noopener" target="_blank">
           <Icon name="instagram" label="SubZero Robotics on Instagram" />
         </a>
+        <a href={site.social.tiktok} rel="noopener" target="_blank">
+          <Icon name="tiktok" label="SubZero Robotics on TikTok" />
+        </a>
+        <a href={site.social.github} rel="noopener" target="_blank">
+          <Icon name="github" label="SubZero Robotics on GitHub" />
+        </a>
         <a href={`mailto:${site.email}`}>
           <Icon name="mail" label="Email SubZero Robotics" />
         </a>
@@ -95,8 +101,19 @@ const year = new Date().getFullYear();
     max-width: 420px;
   }
   @media (max-width: 640px) {
+    .grid-footer {
+      grid-template-columns: 1fr 1fr;
+      gap: 28px 20px;
+    }
     .about {
-      grid-column: auto;
+      grid-column: 1 / -1;
+    }
+    nav ul {
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 12px;
+    }
+    nav {
+      grid-column: 1 / -1;
     }
   }
   .brand {

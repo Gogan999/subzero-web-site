@@ -5,6 +5,7 @@
 
 - id: "2026"
   game: "REBUILT"
+  robot: "DAKOTA"
   summary: "Two regionals, two playoff runs, and a Creativity Award at our home event."
   events:
     - name: "Lake Superior Regional"
@@ -23,6 +24,7 @@
 
 - id: "2025"
   game: "REEFSCAPE"
+  robot: "HYDRO"
   summary: "Three awards, including a Woodie Flowers Finalist honor for Coach Laura Zimny."
   events:
     - name: "Northern Lights Regional"
@@ -44,7 +46,7 @@
 
 - id: "2024"
   game: "CRESCENDO"
-  robot: "Lil Scoots"
+  robot: "Lil' Scoots"
   summary: "Playoff runs at both regionals and a Team Spirit Award in Colorado."
   events:
     - name: "Lake Superior Regional"

@@ -1,0 +1,89 @@
+---
+import { Image } from 'astro:assets';
+import type { Sponsor } from '../lib/sponsors';
+
+interface Props {
+  sponsor: Sponsor;
+  /** Force a display mode (e.g. logos only on the home page). */
+  display?: Sponsor['display'];
+}
+const { sponsor } = Astro.props;
+const display = Astro.props.display && sponsor.logo ? Astro.props.display : sponsor.display;
+const heights = { xl: 110, lg: 84, md: 64, sm: 48, xs: 38 };
+const h = heights[sponsor.size];
+const Tag = sponsor.url ? 'a' : 'div';
+---
+
+<Tag
+  class:list={['sponsor', `size-${sponsor.size}`, `display-${display}`]}
+  href={sponsor.url}
+  rel={sponsor.url ? 'noopener sponsored' : undefined}
+  target={sponsor.url ? '_blank' : undefined}
+  title={sponsor.name}
+>
+  {
+    display !== 'name' && sponsor.logo && (
+      <Image src={sponsor.logo} alt={display === 'logo' ? sponsor.name : ''} height={h * 2} style={`max-height:${h}px`} />
+    )
+  }
+  {display !== 'logo' && <span class="name">{sponsor.name}</span>}
+</Tag>
+
+<style>
+  .sponsor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 18px;
+    border-radius: var(--radius-sm);
+    background: #fff;
+    border: 1px solid var(--border);
+    color: #0a1730;
+    text-decoration: none;
+    text-align: center;
+    min-height: calc(var(--h) + 28px);
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+  a.sponsor:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  .sponsor :global(img) {
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+  }
+  .name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .size-xl {
+    --h: 110px;
+    font-size: 1.35rem;
+  }
+  .size-lg {
+    --h: 84px;
+    font-size: 1.2rem;
+  }
+  .size-md {
+    --h: 64px;
+    font-size: 1.05rem;
+  }
+  .size-sm {
+    --h: 48px;
+    font-size: 0.95rem;
+  }
+  .size-xs {
+    --h: 38px;
+    font-size: 0.88rem;
+    padding: 10px 14px;
+  }
+  .display-name {
+    min-height: auto;
+  }
+</style>

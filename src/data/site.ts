@@ -19,15 +19,18 @@ export const site = {
     lines: ['SubZero Robotics', 'Esko Public Schools', '2 E. Hwy 61, P.O. Box 10', 'Esko, MN 55733'],
   },
   social: {
-    facebook: 'https://www.facebook.com/Esko-SubZero-Robotics-Team-5690-695407257248414/',
+    facebook: 'https://www.facebook.com/SubZeroRobotics5690',
     instagram: 'https://www.instagram.com/subzerorobotics/',
     blueAlliance: 'https://www.thebluealliance.com/team/5690',
     firstEvents: 'https://frc-events.firstinspires.org/team/5690',
+    tiktok: 'https://www.tiktok.com/@subzero_robotics',
+    github: 'https://github.com/SubZero-Robotics',
   },
 } as const;
 
 export const nav = [
   { label: 'About', href: '/about/' },
+  { label: 'Robots', href: '/robots/' },
   { label: 'History', href: '/history/' },
   { label: 'News', href: '/news/' },
   { label: 'Gallery', href: '/gallery/' },

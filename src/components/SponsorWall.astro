@@ -1,0 +1,104 @@
+---
+import { getSponsorGroups, getSponsors } from '../lib/sponsors';
+import SponsorLogo from './SponsorLogo.astro';
+
+interface Props {
+  /** "full" = grouped by tier with headings; "strip" = one compact row of logos. */
+  variant?: 'full' | 'strip';
+}
+const { variant = 'full' } = Astro.props;
+const groups = variant === 'full' ? await getSponsorGroups() : [];
+const strip = variant === 'strip' ? (await getSponsors('current')).sort((a, b) => order(a.size) - order(b.size)) : [];
+function order(size: string) {
+  return ['xl', 'lg', 'md', 'sm', 'xs'].indexOf(size);
+}
+const minWidth = { xl: 300, lg: 240, md: 200, sm: 170, xs: 150 } as const;
+---
+
+{
+  variant === 'full' ? (
+    <div class="wall">
+      {groups.map((g) => (
+        <section class="tier-group" aria-label={`${g.label} sponsors`}>
+          <h3 class="tier-label">
+            {g.label}
+            {g.amount && <span>{g.amount}</span>}
+          </h3>
+          <ul class="tier-grid" role="list" style={`--min:${minWidth[g.sponsors[0].size]}px`}>
+            {g.sponsors.map((s) => (
+              <li>
+                <SponsorLogo sponsor={s} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  ) : (
+    <ul class="strip" role="list">
+      {strip.map((s) => (
+        <li class={`strip-${s.size}`}>
+          <SponsorLogo sponsor={{ ...s, size: s.size === 'xl' || s.size === 'lg' ? 'md' : 'sm' }} />
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+<style>
+  .wall {
+    display: grid;
+    gap: 28px;
+  }
+  .tier-label {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+  .tier-label span {
+    letter-spacing: 0;
+    text-transform: none;
+    font-weight: 500;
+    font-family: var(--font-body);
+  }
+  .tier-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--min)), 1fr));
+  }
+  .tier-grid li,
+  .strip li {
+    display: grid;
+  }
+  .strip {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  .strip-xl,
+  .strip-lg,
+  .strip-md {
+    flex: 0 1 200px;
+  }
+  .strip-sm,
+  .strip-xs {
+    flex: 0 1 160px;
+  }
+  @media (max-width: 640px) {
+    .strip li {
+      flex: 0 1 calc(50% - 5px);
+    }
+  }
+</style>

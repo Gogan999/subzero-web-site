@@ -1,0 +1,84 @@
+# Robots, newest first. One entry per competition robot.
+# - photo: file in src/assets/robots/ (defaults to "<year>.jpg" if it exists)
+# - specs: short bullet points shown on the card
+# - binder: link to the technical binder (optional)
+# - Awards are pulled automatically from src/data/seasons.yaml.
+
+- id: "2026"
+  name: "DAKOTA"
+  game: "REBUILT"
+  summary: "A 360° turret and adjustable hooded shooter that scores fuel from anywhere in the alliance zone, even under defense."
+  specs:
+    - "REV MAXSwerve, 19.7 ft/s"
+    - "Turret with AprilTag auto-aim"
+    - "Adjustable hooded shooter"
+    - "45-fuel intake & hopper"
+    - "Two-stage climber"
+  binder: "https://docs.google.com/document/d/1GSbRmIzIko-4-Hv6EIsm50KFBl9fQdpg0zmYSt48BHk/view"
+
+- id: "2025"
+  name: "HYDRO"
+  game: "REEFSCAPE"
+  summary: "An elevator robot with a 275° coral manipulator, ground algae pickup and a shallow-cage climber."
+  specs:
+    - "REV MAXSwerve, 17.5 ft/s"
+    - "40 in single-stage elevator"
+    - "L1–L3 coral scoring"
+    - "Algae intake to processor"
+    - "Shallow cage climb"
+  binder: "https://docs.google.com/document/d/1kTmtITHFfvsMANpVG27I2cxJ-Z0skq2wfRFPDxkzxuw/view"
+
+- id: "2024"
+  name: "Lil' Scoots"
+  game: "CRESCENDO"
+  summary: "Our 10th-season robot: a compact swerve bot that fit under the stage and scored in both the Speaker and Amp."
+  specs:
+    - "REV MAXSwerve"
+    - "Under-the-bumper dual-sided intake"
+    - "Speaker + Amp scoring"
+    - "Climb with Harmony capability"
+    - "119 lb · C++"
+
+- id: "2023"
+  name: "Aftermath"
+  game: "CHARGED UP"
+  summary: "A six-wheel tank-drive robot that picked up cones and cubes from the floor and substations and scored on all three levels."
+  specs:
+    - "6-wheel tank, 4 Falcon motors"
+    - "Cone & cube floor intake"
+    - "Three-level scoring"
+    - "Docked & engaged autonomous"
+    - "124 lb · C++ command-based"
+
+- id: "2022"
+  game: "RAPID REACT"
+  summary: "Captained an alliance to the semifinals at Lake Superior and earned the Innovation in Control Award."
+
+- id: "2020"
+  name: "Ned"
+  game: "INFINITE RECHARGE"
+  summary: "Ranked 22nd and reached the semifinals at Lake Superior before COVID-19 ended the season. Ned also played on in 2021's at-home challenges."
+
+- id: "2019"
+  game: "DESTINATION: DEEP SPACE"
+  summary: "Lake Superior Regional Champions, earning our third trip to the FIRST Championship."
+
+- id: "2018"
+  name: "BLAKE25"
+  game: "FIRST POWER UP"
+  summary: "Made the playoffs at both the Lake Superior and Iowa Regionals."
+
+- id: "2017"
+  name: "Nigel Thornberry"
+  game: "FIRST STEAMWORKS"
+  summary: "Iowa Regional Champions, then a 9th seed and semifinal run at the FIRST Championship in St. Louis."
+
+- id: "2016"
+  name: "Sir B.A.R.D."
+  game: "FIRST STRONGHOLD"
+  summary: "The Breaching And Recon Device: 3rd seed and finalist at Lake Superior, Industrial Design Award, and our first trip to Worlds."
+
+- id: "2015"
+  name: "T.O.M."
+  game: "RECYCLE RUSH"
+  summary: "Our rookie robot, built from the Kit of Parts, won the Rookie Inspiration Award at our very first regional."

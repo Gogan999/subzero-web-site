@@ -1,0 +1,439 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import AlbumCard from '../components/AlbumCard.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import NewsCard from '../components/NewsCard.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+import { subteams } from '../data/subteams';
+import { getNews, getSeasons, getTeamStats } from '../lib/content';
+import { getAlbums } from '../lib/gallery';
+import { withBase } from '../lib/url';
+
+import teamPhoto from '../assets/brand/team-photo.jpg';
+import robotPhoto from '../assets/gallery/2021-minne-mini/06.jpg';
+
+const stats = await getTeamStats();
+const [latest] = await getSeasons();
+const news = (await getNews()).slice(0, 3);
+const albums = (await getAlbums()).slice(0, 4);
+const sponsors = await getCollection('sponsors', ({ data }) => data.status === 'current');
+
+const highlights = [
+  { year: '2025', text: 'Woodie Flowers Finalist: Coach Laura Zimny' },
+  { year: '2019', text: 'Lake Superior Regional Champions' },
+  { year: '2017', text: 'Iowa Regional Champions' },
+  { year: '2016', text: 'Industrial Design Award & first trip to Worlds' },
+];
+---
+
+<BaseLayout>
+  <!-- Hero -->
+  <section class="hero frost">
+    <Image
+      src={teamPhoto}
+      alt=""
+      class="hero-bg"
+      layout="full-width"
+      loading="eager"
+      fetchpriority="high"
+      widths={[640, 960, 1280, 1600]}
+    />
+    <div class="container hero-inner">
+      <p class="eyebrow"><Icon name="snowflake" size={16} /> FIRST Robotics Competition · Team {site.teamNumber}</p>
+      <h1>We are <span class="ice">SubZero</span> Robotics.</h1>
+      <p class="lead">
+        High school students from {site.location}, designing, building and programming competition robots, and having a
+        blast doing it, since {site.rookieYear}.
+      </p>
+      <div class="btn-row">
+        <a class="btn btn--accent" href={withBase('/about/')}>Meet the team <Icon name="arrow-right" size={18} /></a>
+        <a class="btn btn--ghost" href={withBase('/sponsors/')}>Support us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="stats-wrap" aria-label="Team at a glance">
+    <div class="container">
+      <dl class="stats card">
+        <div><dt>Seasons competed</dt><dd>{stats.seasons}</dd></div>
+        <div><dt>Awards won</dt><dd>{stats.awards}</dd></div>
+        <div><dt>Regional titles</dt><dd>{stats.regionalWins}</dd></div>
+        <div><dt>FIRST Championship trips</dt><dd>{stats.championships}</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- Who we are -->
+  <section class="section">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">Who we are</p>
+        <h2>More than robots.</h2>
+        <p class="lead">
+          SubZero is Esko High School's FIRST Robotics Competition team. Every season we get a brand-new game and a few
+          short weeks to build a robot that can play it.
+        </p>
+        <p>
+          Along the way, students learn real engineering, from CAD and machining to wiring and code, alongside the
+          business, media and leadership skills that keep a team running. Coaches and mentors from our school and
+          community guide the way, but students do the work.
+        </p>
+        <a class="link-arrow" href={withBase('/about/')}>About SubZero &amp; FIRST <Icon name="arrow-right" size={18} /></a>
+      </div>
+      <div class="split-media">
+        <Image src={robotPhoto} alt="SubZero students with their robot at the 2021 Minne Mini" width={720} widths={[480, 720, 1080]} sizes="(min-width: 960px) 560px, 100vw" />
+      </div>
+    </div>
+  </section>
+
+  <!-- What we do -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section-head section-head--center">
+        <p class="eyebrow">What we do</p>
+        <h2>Find your place on the team</h2>
+        <p class="lead">It takes a lot more than a robot to compete. Students join the departments that fit their interests, and try others too.</p>
+      </div>
+      <ul class="grid grid--4 subteams" role="list">
+        {
+          subteams.map((t) => (
+            <li class="card subteam">
+              <span class="icon-badge"><Icon name={t.icon} size={22} /></span>
+              <h3>{t.name}</h3>
+              <p>{t.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- Latest season + highlights -->
+  <section class="section">
+    <div class="container season-grid">
+      <article class="card latest-season">
+        <p class="eyebrow">Latest season · {latest.id}</p>
+        <h2>{latest.data.game}</h2>
+        {latest.data.summary && <p class="lead">{latest.data.summary}</p>}
+        <ul class="events" role="list">
+          {
+            latest.data.events.map((e) => (
+              <li>
+                <strong>{e.name}</strong>
+                <span class="muted">{[e.rank && `Ranked ${e.rank}`, e.result].filter(Boolean).join(' · ')}</span>
+              </li>
+            ))
+          }
+        </ul>
+        {
+          latest.data.awards.length > 0 && (
+            <ul class="awards" role="list">
+              {latest.data.awards.map((a) => (
+                <li class="pill pill--gold">
+                  <Icon name="trophy" size={14} /> {a.name}
+                </li>
+              ))}
+            </ul>
+          )
+        }
+        <a class="link-arrow" href={withBase('/history/')}>Every season since {site.rookieYear} <Icon name="arrow-right" size={18} /></a>
+      </article>
+
+      <div class="highlights frost">
+        <p class="eyebrow">Proudest moments</p>
+        <ol role="list">
+          {
+            highlights.map((h) => (
+              <li>
+                <span class="year">{h.year}</span>
+                <span>{h.text}</span>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- News -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section-head section-head--row">
+        <div>
+          <p class="eyebrow">News</p>
+          <h2>From the pits</h2>
+        </div>
+        <a class="link-arrow" href={withBase('/news/')}>All news <Icon name="arrow-right" size={18} /></a>
+      </div>
+      <div class="grid grid--3">
+        {news.map((post) => <NewsCard post={post} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery teaser -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head section-head--row">
+        <div>
+          <p class="eyebrow">Gallery</p>
+          <h2>A decade of memories</h2>
+        </div>
+        <a class="link-arrow" href={withBase('/gallery/')}>Browse all albums <Icon name="arrow-right" size={18} /></a>
+      </div>
+      <div class="grid grid--4">
+        {albums.map((album) => <AlbumCard album={album} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- Sponsors -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section-head section-head--center">
+        <p class="eyebrow">Our partners</p>
+        <h2>Powered by our sponsors</h2>
+        <p class="lead">Thank you to the businesses, foundations and community groups that make our season possible.</p>
+      </div>
+      <ul class="sponsor-cloud" role="list">
+        {sponsors.map((s) => <li>{s.data.name}</li>)}
+      </ul>
+      <p class="center"><a class="btn btn--primary" href={withBase('/sponsors/')}>Become a sponsor</a></p>
+    </div>
+  </section>
+
+  <CtaBand />
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .hero {
+    min-height: min(88vh, 760px);
+    display: flex;
+    align-items: flex-end;
+    padding-block: 120px clamp(96px, 12vw, 140px);
+  }
+  .hero :global(.hero-bg) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    z-index: -2;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(90deg, rgb(5 13 26 / 0.92) 0%, rgb(5 13 26 / 0.7) 45%, rgb(5 13 26 / 0.25) 100%),
+      linear-gradient(0deg, rgb(5 13 26 / 0.85) 0%, transparent 50%);
+  }
+  .hero-inner {
+    max-width: calc(var(--container) + var(--gutter) * 2);
+  }
+  .hero h1 {
+    font-size: clamp(2.6rem, 7vw, 5rem);
+    max-width: 12ch;
+  }
+  .ice {
+    background: linear-gradient(100deg, #fff 10%, var(--ice-300) 60%, var(--blue-400));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero .lead {
+    max-width: 52ch;
+    margin-bottom: 28px;
+  }
+  @media (max-width: 640px) {
+    .hero::after {
+      background: linear-gradient(0deg, rgb(5 13 26 / 0.95) 15%, rgb(5 13 26 / 0.55) 100%);
+    }
+  }
+
+  /* Stats */
+  .stats-wrap {
+    position: relative;
+    margin-top: -56px;
+    z-index: 2;
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin: 0;
+    padding: 8px;
+    box-shadow: var(--shadow-md);
+  }
+  .stats > div {
+    padding: 18px 20px;
+    text-align: center;
+  }
+  .stats > div + div {
+    border-left: 1px solid var(--border);
+  }
+  .stats dt {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    order: 2;
+  }
+  .stats dd {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    line-height: 1.1;
+    color: var(--primary);
+  }
+  .stats > div {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  @media (max-width: 720px) {
+    .stats {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .stats > div:nth-child(3) {
+      border-left: 0;
+    }
+    .stats > div:nth-child(n + 3) {
+      border-top: 1px solid var(--border);
+    }
+  }
+
+  /* Split */
+  .split {
+    display: grid;
+    gap: clamp(32px, 5vw, 72px);
+    align-items: center;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  }
+  .split-media :global(img) {
+    border-radius: calc(var(--radius) + 6px);
+    box-shadow: var(--shadow-md);
+    width: 100%;
+  }
+
+  /* Subteams */
+  .subteams {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .subteam {
+    padding: 24px;
+  }
+  .subteam h3 {
+    font-size: 1.12rem;
+    margin: 14px 0 6px;
+  }
+  .subteam p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin: 0;
+  }
+  .icon-badge {
+    display: inline-grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 12%, transparent);
+  }
+
+  /* Season */
+  .season-grid {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  }
+  .latest-season {
+    padding: clamp(24px, 4vw, 40px);
+  }
+  .latest-season h2 {
+    margin-bottom: 0.3em;
+  }
+  .events {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px;
+    display: grid;
+    gap: 12px;
+  }
+  .events li {
+    display: grid;
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    background: var(--surface-2);
+  }
+  .events .muted {
+    font-size: 0.92rem;
+  }
+  .awards {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .highlights {
+    border-radius: var(--radius);
+    padding: clamp(24px, 4vw, 40px);
+  }
+  .highlights ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 4px;
+  }
+  .highlights li {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 12px;
+    align-items: baseline;
+    padding: 14px 0;
+    border-bottom: 1px solid rgb(255 255 255 / 0.1);
+    font-size: 1.08rem;
+  }
+  .highlights li:last-child {
+    border-bottom: 0;
+  }
+  .year {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--gold-400);
+  }
+
+  /* Sponsors */
+  .sponsor-cloud {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto 36px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    max-width: 960px;
+  }
+  .sponsor-cloud li {
+    padding: 14px 22px;
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.05rem;
+  }
+  .center {
+    text-align: center;
+  }
+</style>

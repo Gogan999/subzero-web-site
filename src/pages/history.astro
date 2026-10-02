@@ -1,0 +1,261 @@
+---
+import Icon from '../components/Icon.astro';
+import PageHeader from '../components/PageHeader.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+import { getSeasons, getTeamStats } from '../lib/content';
+import { getAlbums } from '../lib/gallery';
+import { withBase } from '../lib/url';
+
+const seasons = await getSeasons();
+const stats = await getTeamStats();
+const albumIds = new Set((await getAlbums()).map((a) => a.id));
+---
+
+<BaseLayout
+  title="Season History"
+  description={`Every SubZero Robotics season since ${site.rookieYear}: games, robots, events, results and awards for FRC Team ${site.teamNumber}.`}
+>
+  <PageHeader
+    eyebrow="Season history"
+    title={`${stats.seasons} seasons of SubZero`}
+    lead={`From RECYCLE RUSH in ${site.rookieYear} to today: every game, robot, event and award. Official results come from FIRST.`}
+  >
+    <ul class="summary" role="list">
+      <li><strong>{stats.awards}</strong> awards</li>
+      <li><strong>{stats.regionalWins}</strong> regional titles</li>
+      <li><strong>{stats.championships}</strong> FIRST Championship trips</li>
+    </ul>
+  </PageHeader>
+
+  <section class="section">
+    <div class="container">
+      <ol class="timeline" role="list">
+        {
+          seasons.map((s) => (
+            <li class:list={['season', { 'season--highlight': s.data.highlight }]} id={`season-${s.id}`}>
+              <div class="marker" aria-hidden="true">
+                {s.data.highlight ? <Icon name="trophy" size={18} /> : <Icon name="snowflake" size={16} />}
+              </div>
+              <article class="card season-card">
+                <header>
+                  <p class="year">{s.id}</p>
+                  <h2>{s.data.game}</h2>
+                  {s.data.robot && (
+                    <p class="robot">
+                      <Icon name="bot" size={16} /> Robot: <strong>{s.data.robot}</strong>
+                    </p>
+                  )}
+                </header>
+                {s.data.summary && <p class="lead-sm">{s.data.summary}</p>}
+
+                {s.data.events.length > 0 && (
+                  <ul class="events" role="list">
+                    {s.data.events.map((e) => (
+                      <li>
+                        <div>
+                          <p class="event-name">{e.name}</p>
+                          {e.location && <p class="muted small">{e.location}</p>}
+                        </div>
+                        <div class="event-result">
+                          {e.rank && <span>Ranked {e.rank}</span>}
+                          {e.record && <span class="muted">{e.record}</span>}
+                          {e.result && <span class="result">{e.result}</span>}
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                {s.data.awards.length > 0 && (
+                  <ul class="awards" role="list">
+                    {s.data.awards.map((a) => (
+                      <li class="pill pill--gold">
+                        <Icon name="trophy" size={14} />
+                        <span>
+                          {a.name} <span class="muted">· {a.event}</span>
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                {s.data.album && albumIds.has(s.data.album) && (
+                  <a class="link-arrow album-link" href={withBase(`/gallery/${s.data.album}/`)}>
+                    <Icon name="camera" size={16} /> See photos
+                  </a>
+                )}
+              </article>
+            </li>
+          ))
+        }
+      </ol>
+      <p class="source muted">
+        Results from <a href={site.social.firstEvents} rel="noopener">FIRST Events</a> and
+        <a href={site.social.blueAlliance} rel="noopener">The Blue Alliance</a>. Records are qualification wins-losses-ties.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .summary {
+    list-style: none;
+    padding: 0;
+    margin: 28px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 28px;
+    color: rgb(230 245 255 / 0.85);
+  }
+  .summary strong {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    color: var(--gold-400);
+    margin-right: 4px;
+  }
+
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    max-width: 920px;
+    margin-inline: auto;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    left: 19px;
+    width: 2px;
+    background: linear-gradient(var(--primary), color-mix(in srgb, var(--primary) 15%, transparent));
+  }
+  .season {
+    position: relative;
+    padding-left: 60px;
+    padding-bottom: 28px;
+  }
+  .marker {
+    position: absolute;
+    left: 0;
+    top: 22px;
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 2px solid var(--primary);
+    color: var(--primary);
+  }
+  .season--highlight .marker {
+    background: var(--gold-400);
+    border-color: var(--gold-400);
+    color: var(--on-accent);
+  }
+  .season-card {
+    padding: clamp(20px, 3vw, 32px);
+  }
+  .season--highlight .season-card {
+    border-color: color-mix(in srgb, var(--gold-400) 60%, var(--border));
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--gold-400) 40%, transparent),
+      var(--shadow-sm);
+  }
+  .year {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: 0.08em;
+    margin: 0;
+  }
+  .season-card h2 {
+    font-size: clamp(1.4rem, 2.6vw, 1.85rem);
+    margin: 2px 0 6px;
+  }
+  .robot {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+  }
+  .lead-sm {
+    font-size: 1.05rem;
+    margin: 8px 0 18px;
+  }
+  .events {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px;
+    display: grid;
+    gap: 8px;
+  }
+  .events li {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 4px 20px;
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    background: var(--surface-2);
+  }
+  .events p {
+    margin: 0;
+  }
+  .event-name {
+    font-weight: 600;
+  }
+  .small {
+    font-size: 0.88rem;
+  }
+  .event-result {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2px 12px;
+    font-size: 0.95rem;
+  }
+  .result {
+    font-weight: 600;
+    color: var(--primary);
+  }
+  .awards {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .awards .pill {
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.4em 0.85em;
+  }
+  .awards .muted {
+    font-weight: 500;
+  }
+  .album-link {
+    margin-top: 8px;
+    font-size: 0.95rem;
+  }
+  .source {
+    max-width: 920px;
+    margin: 24px auto 0;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+  @media (max-width: 520px) {
+    .season {
+      padding-left: 0;
+    }
+    .timeline::before,
+    .marker {
+      display: none;
+    }
+  }
+</style>

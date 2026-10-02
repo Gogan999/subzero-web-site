@@ -1,0 +1,76 @@
+---
+import { Image } from 'astro:assets';
+import type { Album } from '../lib/gallery';
+import { withBase } from '../lib/url';
+import Icon from './Icon.astro';
+
+interface Props {
+  album: Album;
+}
+const { album } = Astro.props;
+---
+
+<article class="album-card">
+  {album.cover && <Image src={album.cover.image} alt="" width={600} height={450} fit="cover" widths={[400, 600, 800]} sizes="(min-width: 1200px) 290px, (min-width: 700px) 30vw, 100vw" />}
+  <div class="overlay">
+    <h3>
+      <a href={withBase(`/gallery/${album.id}/`)}>{album.data.title}</a>
+    </h3>
+    <p><Icon name="camera" size={16} /> {album.photos.length} photos</p>
+  </div>
+</article>
+
+<style>
+  .album-card {
+    position: relative;
+    border-radius: var(--radius);
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    background: var(--navy-900);
+    box-shadow: var(--shadow-sm);
+  }
+  .album-card :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+  .album-card:hover :global(img) {
+    transform: scale(1.04);
+  }
+  .overlay {
+    position: absolute;
+    inset: auto 0 0 0;
+    padding: 48px 18px 16px;
+    background: linear-gradient(to top, rgb(5 13 26 / 0.92), rgb(5 13 26 / 0));
+    color: #fff;
+  }
+  h3 {
+    font-size: 1.12rem;
+    margin: 0 0 4px;
+  }
+  h3 a {
+    color: #fff;
+    text-decoration: none;
+  }
+  h3 a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  h3 a:focus-visible {
+    outline: none;
+  }
+  .album-card:has(a:focus-visible) {
+    outline: 3px solid var(--focus);
+    outline-offset: 3px;
+  }
+  p {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--ice-200);
+  }
+</style>

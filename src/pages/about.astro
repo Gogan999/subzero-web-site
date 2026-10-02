@@ -1,0 +1,294 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import PageHeader from '../components/PageHeader.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+import { coreValues, subteams } from '../data/subteams';
+import { withBase } from '../lib/url';
+
+import teamPhoto from '../assets/news/iowa-regional-champions.jpg';
+import valuesPhoto from '../assets/gallery/2019-core-values/03.jpg';
+
+const people = await getCollection('people');
+const groups = [
+  { key: 'coach', title: 'Coaches' },
+  { key: 'mentor', title: 'Mentors' },
+  { key: 'consultant', title: 'Consultants' },
+] as const;
+
+const initials = (name: string) =>
+  name
+    .split(' ')
+    .map((part) => part[0])
+    .join('')
+    .slice(0, 2);
+---
+
+<BaseLayout
+  title="About"
+  description="Meet SubZero Robotics, Esko High School's FIRST Robotics Competition team: what FIRST is, our core values, our departments, and the coaches and mentors who guide us."
+>
+  <PageHeader
+    eyebrow="About SubZero"
+    title="Students, mentors and a whole lot of aluminum."
+    lead={`SubZero Robotics was founded in ${site.founded} at Esko High School and competed in our first FIRST Robotics Competition season in ${site.rookieYear}.`}
+  />
+
+  <section class="section">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">Our story</p>
+        <h2>From rookies to regional champions</h2>
+        <p>
+          In our rookie year we built T.O.M. from the Kit of Parts and won the Rookie Inspiration Award at the Lake
+          Superior Regional. A year later, Sir B.A.R.D. earned an Industrial Design Award and took us to the FIRST
+          Championship in St. Louis.
+        </p>
+        <p>
+          Since then we've won the 2017 Iowa Regional and the 2019 Lake Superior Regional, competed at three FIRST
+          Championships, and earned awards for engineering, controls, creativity, spirit and gracious professionalism.
+          Through it all we've kept our focus on what matters most: inspiring students and sharing STEM with our
+          community.
+        </p>
+        <a class="link-arrow" href={withBase('/history/')}>Explore our season history <Icon name="arrow-right" size={18} /></a>
+      </div>
+      <Image src={teamPhoto} alt="SubZero Robotics with the 2017 Iowa Regional winner banner" width={720} widths={[480, 720, 1080]} sizes="(min-width: 960px) 560px, 100vw" class="rounded" />
+    </div>
+  </section>
+
+  <section class="section section--alt" id="first">
+    <div class="container narrow">
+      <p class="eyebrow">What is FIRST?</p>
+      <h2>The varsity sport for the mind</h2>
+      <p class="lead">
+        <a href="https://www.firstinspires.org/" rel="noopener">FIRST</a> (For Inspiration and Recognition of Science
+        and Technology) is a global nonprofit that inspires young people to become leaders and innovators in science,
+        technology, engineering and math.
+      </p>
+      <p>
+        In the <strong>FIRST Robotics Competition</strong>, high school teams get a new game every January. With just a
+        few weeks of build time, students design, build, wire and program an industrial-sized robot to play it, then
+        compete at regional events against teams from across the country. Alliances change every match, so today's
+        opponent is tomorrow's partner.
+      </p>
+      <p>
+        It isn't just about the robot. Teams raise their own funds, design their brand, run outreach programs and
+        practice <em>Gracious Professionalism®</em>: competing hard while treating everyone with respect and kindness.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" id="values">
+    <div class="container">
+      <div class="split values-intro">
+        <div>
+          <p class="eyebrow">Core values</p>
+          <h2>What we stand for</h2>
+          <p class="lead">
+            We wrote these together after a day of team-building on the UWS ropes course. They guide how we work, compete
+            and treat each other.
+          </p>
+        </div>
+        <Image src={valuesPhoto} alt="A SubZero team member crossing a high ropes course" width={720} widths={[480, 720, 1080]} sizes="(min-width: 960px) 560px, 100vw" class="rounded" />
+      </div>
+      <ul class="grid grid--4 values" role="list">
+        {
+          coreValues.map((v, i) => (
+            <li class="card value">
+              <span class="num">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{v.name}</h3>
+              <p>{v.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--alt" id="departments">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Departments</p>
+        <h2>How the team works</h2>
+        <p class="lead">Every student joins a department, and everyone pitches in at competition.</p>
+      </div>
+      <ul class="grid grid--2 departments" role="list">
+        {
+          subteams.map((t) => (
+            <li class="dept">
+              <span class="icon-badge">
+                <Icon name={t.icon} size={22} />
+              </span>
+              <div>
+                <h3>{t.name}</h3>
+                <p>{t.text}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="mentors">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Coaches, mentors & consultants</p>
+        <h2>The grown-ups in the room</h2>
+        <p class="lead">
+          Teachers, engineers, tradespeople and parents who volunteer their time and expertise so students can do amazing
+          things.
+        </p>
+      </div>
+      {
+        groups.map((g) => {
+          const list = people.filter((p) => p.data.group === g.key);
+          return (
+            list.length > 0 && (
+              <div class="people-group">
+                <h3 class="group-title">{g.title}</h3>
+                <ul class="grid grid--3 people" role="list">
+                  {list.map((p) => (
+                    <li class="card person">
+                      <span class="avatar" aria-hidden="true">
+                        {initials(p.data.name)}
+                      </span>
+                      <div>
+                        <p class="name">{p.data.name}</p>
+                        {p.data.focus && <p class="focus">{p.data.focus}</p>}
+                        {p.data.job && <p class="job">{p.data.job}</p>}
+                        {p.data.note && (
+                          <p class="pill pill--gold note">
+                            <Icon name="star" size={12} /> {p.data.note}
+                          </p>
+                        )}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )
+          );
+        })
+      }
+    </div>
+  </section>
+
+  <CtaBand />
+</BaseLayout>
+
+<style>
+  .split {
+    display: grid;
+    gap: clamp(32px, 5vw, 72px);
+    align-items: center;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  }
+  :global(.rounded) {
+    border-radius: calc(var(--radius) + 6px);
+    box-shadow: var(--shadow-md);
+    width: 100%;
+  }
+  .values-intro {
+    margin-bottom: clamp(32px, 5vw, 56px);
+  }
+  .values,
+  .departments,
+  .people {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .value {
+    padding: 24px;
+  }
+  .value .num {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+  }
+  .value h3 {
+    margin: 6px 0;
+  }
+  .value p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.97rem;
+  }
+  .dept {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .dept h3 {
+    margin: 2px 0 4px;
+    font-size: 1.15rem;
+  }
+  .dept p {
+    margin: 0;
+    color: var(--text-muted);
+  }
+  .icon-badge {
+    flex: none;
+    display: inline-grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 12%, transparent);
+  }
+  .people-group + .people-group {
+    margin-top: 40px;
+  }
+  .group-title {
+    font-size: 0.9rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+  .person {
+    display: flex;
+    gap: 16px;
+    padding: 20px;
+    align-items: flex-start;
+  }
+  .avatar {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(140deg, var(--blue-500), var(--navy-800));
+  }
+  .person p {
+    margin: 0;
+  }
+  .name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+  .focus {
+    color: var(--primary);
+    font-weight: 500;
+    font-size: 0.93rem;
+  }
+  .job {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+  .note {
+    margin-top: 8px !important;
+  }
+</style>

@@ -1,0 +1,36 @@
+---
+import Icon from '../components/Icon.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../lib/url';
+---
+
+<BaseLayout title="Page not found" description="This page could not be found." noindex>
+  <section class="not-found frost">
+    <div class="container">
+      <Icon name="snowflake" size={64} class="flake" />
+      <p class="eyebrow">Error 404</p>
+      <h1>This page froze up.</h1>
+      <p class="lead">We couldn't find what you were looking for. It may have moved when we rebuilt our website.</p>
+      <div class="btn-row">
+        <a class="btn btn--accent" href={withBase('/')}>Back to home</a>
+        <a class="btn btn--ghost" href={withBase('/news/')}>Read the news</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    min-height: 70vh;
+    display: grid;
+    align-items: center;
+    padding-block: 80px;
+  }
+  .not-found :global(.flake) {
+    color: var(--ice-300);
+    margin-bottom: 24px;
+  }
+  .lead {
+    margin-bottom: 28px;
+  }
+</style>

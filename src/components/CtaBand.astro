@@ -1,0 +1,62 @@
+---
+import { withBase } from '../lib/url';
+import Icon from './Icon.astro';
+---
+
+<section class="cta-band">
+  <div class="container cta-grid">
+    <div class="cta frost">
+      <Icon name="school" size={32} class="cta-icon" />
+      <h2>Join the team</h2>
+      <p>
+        Esko High School students: whether you love to build, code, design, write, plan or lead, there's a place for you
+        on SubZero.
+      </p>
+      <a class="btn btn--accent" href={withBase('/contact/#join')}>How to join <Icon name="arrow-right" size={18} /></a>
+    </div>
+    <div class="cta frost cta--alt">
+      <Icon name="heart" size={32} class="cta-icon" />
+      <h2>Support SubZero</h2>
+      <p>
+        Sponsors and donors make our season possible, from robot parts to travel. Help us inspire the next generation of
+        engineers.
+      </p>
+      <a class="btn btn--ghost" href={withBase('/sponsors/')}>Become a sponsor <Icon name="arrow-right" size={18} /></a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-band {
+    padding-block: clamp(56px, 8vw, 96px);
+  }
+  .cta-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  }
+  .cta {
+    border-radius: calc(var(--radius) + 6px);
+    padding: clamp(28px, 4vw, 44px);
+  }
+  .cta--alt {
+    background:
+      radial-gradient(700px 300px at 100% 0%, rgb(251 191 36 / 0.22), transparent 60%),
+      linear-gradient(160deg, var(--blue-600), var(--navy-900));
+  }
+  .cta :global(.cta-icon) {
+    color: var(--ice-300);
+    margin-bottom: 12px;
+  }
+  .cta--alt :global(.cta-icon) {
+    color: var(--gold-400);
+  }
+  h2 {
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+  }
+  p {
+    color: rgb(230 245 255 / 0.85);
+    max-width: 46ch;
+    margin-bottom: 24px;
+  }
+</style>

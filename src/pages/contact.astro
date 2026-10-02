@@ -1,0 +1,163 @@
+---
+import Icon from '../components/Icon.astro';
+import PageHeader from '../components/PageHeader.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+import { withBase } from '../lib/url';
+---
+
+<BaseLayout
+  title="Contact"
+  description="Contact SubZero Robotics, FRC Team 5690 in Esko, Minnesota: email the team or coaches, follow us on social media, or learn how to join."
+>
+  <PageHeader
+    eyebrow="Contact"
+    title="Let's talk robots."
+    lead="Questions, sponsorship, event invitations or just want to say hi? We'd love to hear from you."
+  />
+
+  <section class="section">
+    <div class="container contact-grid">
+      <a class="card contact-card" href={`mailto:${site.email}`}>
+        <span class="icon-badge"><Icon name="mail" size={22} /></span>
+        <h2>Email the team</h2>
+        <p class="muted">General questions, sponsorships and event requests.</p>
+        <p class="value">{site.email}</p>
+      </a>
+      {
+        site.coaches.map((c) => (
+          <a class="card contact-card" href={`mailto:${c.email}`}>
+            <span class="icon-badge">
+              <Icon name="users" size={22} />
+            </span>
+            <h2>Coach {c.name}</h2>
+            <p class="muted">Reach a head coach directly.</p>
+            <p class="value">{c.email}</p>
+          </a>
+        ))
+      }
+      <a class="card contact-card" href={site.social.facebook} rel="noopener" target="_blank">
+        <span class="icon-badge"><Icon name="facebook" size={22} /></span>
+        <h2>Facebook</h2>
+        <p class="muted">Event updates, photos and match results.</p>
+        <p class="value">Esko SubZero Robotics Team 5690</p>
+      </a>
+      <a class="card contact-card" href={site.social.instagram} rel="noopener" target="_blank">
+        <span class="icon-badge"><Icon name="instagram" size={22} /></span>
+        <h2>Instagram</h2>
+        <p class="muted">Behind the scenes in the shop and at competitions.</p>
+        <p class="value">@subzerorobotics</p>
+      </a>
+      <div class="card contact-card">
+        <span class="icon-badge"><Icon name="map-pin" size={22} /></span>
+        <h2>Mailing address</h2>
+        <address>
+          {site.address.lines.map((line) => <span>{line}</span>)}
+        </address>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt" id="join">
+    <div class="container join">
+      <div>
+        <p class="eyebrow">Join the team</p>
+        <h2>Calling all Esko High School students</h2>
+        <p class="lead">
+          SubZero is open to Esko High School students in grades 9–12. Curiosity and a willingness to learn matter more
+          than experience.
+        </p>
+        <p>
+          Builders, coders, artists, writers, planners, photographers and future business leaders all have a place on
+          the team. Talk to {site.coaches.map((c) => `Coach ${c.name.split(' ').at(-1)}`).join(' or ')} at school, or
+          email the team to find out when the next meeting is.
+        </p>
+        <div class="btn-row">
+          <a class="btn btn--primary" href={`mailto:${site.email}?subject=${encodeURIComponent('I want to join SubZero!')}`}>
+            <Icon name="mail" size={18} /> Email us about joining
+          </a>
+          <a class="btn btn--ghost ghost-dark" href={withBase('/about/#departments')}>Explore departments</a>
+        </div>
+      </div>
+      <div class="card mentor-card">
+        <Icon name="wrench" size={28} class="mentor-icon" />
+        <h3>Want to mentor?</h3>
+        <p class="muted">
+          Engineers, machinists, programmers, designers, business pros and parents: mentors are the backbone of FRC. If
+          you have skills to share, we'd love to have you.
+        </p>
+        <a class="link-arrow" href={`mailto:${site.email}?subject=${encodeURIComponent('Mentoring SubZero')}`}>
+          Get in touch <Icon name="arrow-right" size={18} />
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  }
+  .contact-card {
+    display: block;
+    padding: 24px;
+    color: var(--text);
+    text-decoration: none;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  a.contact-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+  .contact-card h2 {
+    font-size: 1.2rem;
+    margin: 14px 0 4px;
+  }
+  .contact-card p {
+    margin: 0;
+  }
+  .value {
+    margin-top: 10px !important;
+    font-weight: 600;
+    color: var(--link);
+    overflow-wrap: anywhere;
+  }
+  address {
+    font-style: normal;
+    display: grid;
+    margin-top: 8px;
+    color: var(--text-muted);
+  }
+  .icon-badge {
+    display: inline-grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 12%, transparent);
+  }
+  .join {
+    display: grid;
+    gap: clamp(32px, 5vw, 64px);
+    align-items: center;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  }
+  .ghost-dark {
+    color: var(--primary);
+  }
+  .ghost-dark:hover {
+    background: color-mix(in srgb, var(--primary) 8%, transparent);
+  }
+  .mentor-card {
+    padding: clamp(24px, 4vw, 36px);
+  }
+  .mentor-card :global(.mentor-icon) {
+    color: var(--primary);
+    margin-bottom: 12px;
+  }
+</style>

@@ -1,0 +1,143 @@
+# Sponsors and partners.
+# status: "current" shows in the main grid; "past" shows in the thank-you list.
+# `url` and `logo` are optional. For a logo, drop the image in
+# src/assets/sponsors/ and set logo to its file name (e.g. "gene-haas.png").
+
+- id: esko-public-schools
+  name: "Esko Public Schools"
+  status: current
+  url: "https://www.esko.k12.mn.us/"
+- id: irving-community-club
+  name: "Irving Community Club"
+  status: current
+- id: gene-haas-foundation
+  name: "Gene Haas Foundation"
+  status: current
+  url: "https://www.ghaasfoundation.org/"
+- id: mont-du-lac
+  name: "Mont du Lac"
+  status: current
+- id: minnesota-power-foundation
+  name: "Minnesota Power Foundation"
+  status: current
+  url: "https://www.mnpower.com/"
+- id: essentia-health
+  name: "Essentia Health"
+  status: current
+  url: "https://www.essentiahealth.org/"
+- id: cirrus-design
+  name: "Cirrus Design Corporation"
+  status: current
+  url: "https://cirrusaircraft.com/"
+
+- id: burns-mcdonnell
+  name: "Burns & McDonnell"
+  status: past
+- id: gpm-inc
+  name: "GPM, Inc."
+  status: past
+- id: thrivent
+  name: "Thrivent Financial"
+  status: past
+- id: lake-superior-carl-perkins
+  name: "Lake Superior Carl Perkins Consortium"
+  status: past
+- id: allete-clean-energy
+  name: "ALLETE Clean Energy"
+  status: past
+- id: rockwell-automation
+  name: "Rockwell Automation"
+  status: past
+- id: medtronic
+  name: "Medtronic"
+  status: past
+- id: best-buy
+  name: "Best Buy"
+  status: past
+- id: boldt
+  name: "The BOLDT Company"
+  status: past
+- id: lahti-charitable-trust
+  name: "Lahti Charitable Trust"
+  status: past
+- id: ge-renewables
+  name: "GE Renewables"
+  status: past
+- id: nordex
+  name: "Nordex USA"
+  status: past
+- id: wanzek
+  name: "Wanzek Construction"
+  status: past
+- id: lakehead-constructors
+  name: "Lakehead Constructors"
+  status: past
+- id: benson-electric
+  name: "Benson Electric"
+  status: past
+- id: kiwanis-friendly-duluth
+  name: "Kiwanis Club of Friendly Duluth"
+  status: past
+- id: widdes-trailer-sales
+  name: "Widdes Trailer Sales"
+  status: past
+- id: ray-riihiluoma
+  name: "Ray Riihiluoma Inc."
+  status: past
+- id: power-north
+  name: "Power North IBEW/NECA LMCC"
+  status: past
+- id: russell-steel
+  name: "Russell Steel"
+  status: past
+- id: minnesota-marshmallow
+  name: "The Minnesota Marshmallow"
+  status: past
+- id: buffalo-house
+  name: "The Buffalo House"
+  status: past
+- id: eagles-1163
+  name: "Eagles 1163"
+  status: past
+- id: northwoods-credit-union
+  name: "Northwoods Credit Union"
+  status: past
+- id: steeles
+  name: "Steele's"
+  status: past
+- id: ips-cranes
+  name: "IPS Cranes"
+  status: past
+- id: harbor-freight
+  name: "Harbor Freight"
+  status: past
+- id: national-bank-of-commerce
+  name: "National Bank of Commerce"
+  status: past
+- id: members-cooperative
+  name: "Members Cooperative Credit Union"
+  status: past
+- id: epicurean
+  name: "Epicurean"
+  status: past
+- id: northwest-outlet
+  name: "Northwest Outlet"
+  status: past
+- id: midwest-energy-resources
+  name: "Midwest Energy Resources Company"
+  status: past
+- id: krech-ojard
+  name: "Krech Ojard & Associates"
+  status: past
+- id: earl-chamberlin
+  name: "Earl Chamberlin"
+  status: past
+- id: community-memorial-hospital
+  name: "Community Memorial Hospital – Sunnyside Health Care Center"
+  status: past
+- id: reliable-insurance
+  name: "Reliable Insurance Agency"
+  status: past
+- id: women-of-the-moose-256
+  name: "Women of the Moose, Cloquet Chapter No. 256"
+  status: past

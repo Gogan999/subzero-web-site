@@ -1,0 +1,47 @@
+---
+// Dark "frost" banner used at the top of interior pages.
+interface Props {
+  title: string;
+  eyebrow?: string;
+  lead?: string;
+}
+const { title, eyebrow, lead } = Astro.props;
+---
+
+<section class="page-header frost">
+  <svg class="flake" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M2 12h20M12 2v20m8-6-4-4 4-4M4 8l4 4-4 4m12-12-4 4-4-4m0 16 4-4 4 4" />
+  </svg>
+  <div class="container">
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h1>{title}</h1>
+    {lead && <p class="lead">{lead}</p>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .page-header {
+    padding-block: clamp(56px, 9vw, 112px) clamp(48px, 7vw, 88px);
+  }
+  h1 {
+    max-width: 18ch;
+  }
+  .lead {
+    margin-bottom: 0;
+  }
+  .flake {
+    position: absolute;
+    right: max(-60px, calc(50% - 760px));
+    top: 50%;
+    width: clamp(220px, 32vw, 420px);
+    height: auto;
+    translate: 0 -50%;
+    fill: none;
+    stroke: rgb(143 211 255 / 0.12);
+    stroke-width: 1.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    z-index: -1;
+  }
+</style>

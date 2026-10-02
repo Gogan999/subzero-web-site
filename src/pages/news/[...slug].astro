@@ -1,0 +1,154 @@
+---
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import Icon from '../../components/Icon.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { formatDate, getNews } from '../../lib/content';
+import { withBase } from '../../lib/url';
+
+export async function getStaticPaths() {
+  const posts = await getNews();
+  return posts.map((post, i) => ({
+    params: { slug: post.id },
+    props: { post, newer: posts[i - 1], older: posts[i + 1] },
+  }));
+}
+
+const { post, newer, older } = Astro.props;
+const { title, date, summary, cover, coverAlt, tags } = post.data;
+const { Content } = await render(post);
+---
+
+<BaseLayout title={title} description={summary} image={cover} type="article" publishedTime={date}>
+  <article>
+    <header class="post-header frost">
+      <div class="container narrow">
+        <a class="back" href={withBase('/news/')}><Icon name="chevron-left" size={16} /> All news</a>
+        <p class="meta">
+          <time datetime={date.toISOString()}>{formatDate(date)}</time>
+        </p>
+        <h1>{title}</h1>
+        <p class="lead">{summary}</p>
+        {
+          tags.length > 0 && (
+            <ul class="tags" role="list">
+              {tags.map((t) => (
+                <li class="tag">{t}</li>
+              ))}
+            </ul>
+          )
+        }
+      </div>
+    </header>
+
+    {
+      cover && (
+        <div class="container cover-wrap">
+          <Image src={cover} alt={coverAlt ?? ''} width={1100} widths={[640, 1100, 1400]} sizes="(min-width: 1180px) 1100px, 100vw" loading="eager" class="cover" />
+        </div>
+      )
+    }
+
+    <div class="container narrow prose post-body">
+      <Content />
+    </div>
+
+    <nav class="container narrow pager" aria-label="More news">
+      {
+        older ? (
+          <a class="card pager-link" href={withBase(`/news/${older.id}/`)}>
+            <span class="muted">← Older</span>
+            <span class="pager-title">{older.data.title}</span>
+          </a>
+        ) : (
+          <span />
+        )
+      }
+      {
+        newer && (
+          <a class="card pager-link next" href={withBase(`/news/${newer.id}/`)}>
+            <span class="muted">Newer →</span>
+            <span class="pager-title">{newer.data.title}</span>
+          </a>
+        )
+      }
+    </nav>
+  </article>
+</BaseLayout>
+
+<style>
+  .post-header {
+    padding-block: clamp(40px, 7vw, 80px) clamp(64px, 10vw, 120px);
+  }
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 600;
+    text-decoration: none;
+    margin-bottom: 24px;
+  }
+  .meta {
+    color: var(--ice-300);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  h1 {
+    font-size: clamp(2rem, 5vw, 3.25rem);
+  }
+  .tags {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .tag {
+    padding: 0.25em 0.8em;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: rgb(255 255 255 / 0.1);
+    color: var(--ice-100);
+  }
+  .cover-wrap {
+    max-width: calc(1100px + var(--gutter) * 2);
+    margin-top: clamp(-88px, -7vw, -40px);
+    position: relative;
+  }
+  .cover-wrap :global(.cover) {
+    width: 100%;
+    max-height: 640px;
+    object-fit: cover;
+    border-radius: calc(var(--radius) + 6px);
+    box-shadow: var(--shadow-md);
+  }
+  .post-body {
+    padding-block: clamp(32px, 5vw, 56px);
+  }
+  .pager {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    gap: 16px;
+    padding-bottom: clamp(56px, 8vw, 96px);
+  }
+  .pager-link {
+    display: grid;
+    gap: 4px;
+    padding: 18px 20px;
+    text-decoration: none;
+    color: var(--text);
+    transition: box-shadow 0.2s ease;
+  }
+  .pager-link:hover {
+    box-shadow: var(--shadow-md);
+  }
+  .pager-link.next {
+    text-align: right;
+  }
+  .pager-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+</style>

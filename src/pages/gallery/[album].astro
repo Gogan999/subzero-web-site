@@ -1,0 +1,302 @@
+---
+import { getImage, Image } from 'astro:assets';
+import Icon from '../../components/Icon.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getAlbums, photoAlt } from '../../lib/gallery';
+import { withBase } from '../../lib/url';
+
+export async function getStaticPaths() {
+  const albums = await getAlbums();
+  return albums.map((album, i) => ({
+    params: { album: album.id },
+    props: { album, newer: albums[i - 1], older: albums[i + 1] },
+  }));
+}
+
+const { album, newer, older } = Astro.props;
+const photos = await Promise.all(
+  album.photos.map(async (photo, i) => ({
+    ...photo,
+    alt: photoAlt(album, photo, i),
+    full: (await getImage({ src: photo.image, width: 1600, format: 'webp' })).src, // never upscales
+  })),
+);
+---
+
+<BaseLayout title={album.data.title} description={album.data.description ?? `Photos: ${album.data.title}`} image={album.cover?.image}>
+  <PageHeader eyebrow={`Gallery · ${album.year}`} title={album.data.title} lead={album.data.description}>
+    <p class="crumbs">
+      <a href={withBase('/gallery/')}><Icon name="chevron-left" size={16} /> All albums</a>
+      <span aria-hidden="true">·</span>
+      <span>{photos.length} photos</span>
+    </p>
+  </PageHeader>
+
+  <section class="section">
+    <div class="container">
+      <ul class="photo-grid" role="list">
+        {
+          photos.map((photo, i) => (
+            <li>
+              <a href={photo.full} class="photo" data-index={i} data-caption={photo.caption ?? ''}>
+                <Image src={photo.image} alt={photo.alt} width={480} height={360} fit="cover" widths={[320, 480, 640]} sizes="(min-width: 1200px) 290px, (min-width: 700px) 31vw, 48vw" />
+                {photo.caption && <span class="cap">{photo.caption}</span>}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <nav class="pager" aria-label="More albums">
+        {
+          older ? (
+            <a class="card pager-link" href={withBase(`/gallery/${older.id}/`)}>
+              <span class="muted">← Older album</span>
+              <span class="pager-title">{older.data.title}</span>
+            </a>
+          ) : (
+            <span />
+          )
+        }
+        {
+          newer && (
+            <a class="card pager-link next" href={withBase(`/gallery/${newer.id}/`)}>
+              <span class="muted">Newer album →</span>
+              <span class="pager-title">{newer.data.title}</span>
+            </a>
+          )
+        }
+      </nav>
+    </div>
+  </section>
+
+  <dialog class="lightbox" aria-label="Photo viewer">
+    <figure>
+      <img alt="" />
+      <figcaption></figcaption>
+    </figure>
+    <p class="counter" aria-live="polite"></p>
+    <button class="lb-btn lb-close" type="button" aria-label="Close"><Icon name="x" size={24} /></button>
+    <button class="lb-btn lb-prev" type="button" aria-label="Previous photo"><Icon name="chevron-left" size={28} /></button>
+    <button class="lb-btn lb-next" type="button" aria-label="Next photo"><Icon name="chevron-right" size={28} /></button>
+  </dialog>
+</BaseLayout>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('.lightbox');
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('.photo')];
+  if (dialog && links.length) {
+    const img = dialog.querySelector('img')!;
+    const caption = dialog.querySelector('figcaption')!;
+    const counter = dialog.querySelector('.counter')!;
+    let index = 0;
+
+    const show = (i: number) => {
+      index = (i + links.length) % links.length;
+      const link = links[index];
+      img.src = link.href;
+      img.alt = link.querySelector('img')?.alt ?? '';
+      caption.textContent = link.dataset.caption ?? '';
+      counter.textContent = `${index + 1} / ${links.length}`;
+    };
+
+    links.forEach((link, i) =>
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        show(i);
+        dialog.showModal();
+      }),
+    );
+    dialog.querySelector('.lb-close')!.addEventListener('click', () => dialog.close());
+    dialog.querySelector('.lb-prev')!.addEventListener('click', () => show(index - 1));
+    dialog.querySelector('.lb-next')!.addEventListener('click', () => show(index + 1));
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog) dialog.close();
+    });
+    dialog.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') show(index - 1);
+      if (e.key === 'ArrowRight') show(index + 1);
+    });
+    dialog.addEventListener('close', () => links[index]?.focus());
+
+    // swipe on touch screens
+    let startX = 0;
+    dialog.addEventListener('touchstart', (e) => (startX = e.touches[0].clientX), { passive: true });
+    dialog.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 50) show(index + (dx < 0 ? 1 : -1));
+    });
+  }
+</script>
+
+<style>
+  .crumbs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0 0;
+    color: rgb(230 245 255 / 0.8);
+  }
+  .crumbs a {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 600;
+  }
+  .photo-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(min(46%, 260px), 1fr));
+  }
+  .photo {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: var(--surface-2);
+  }
+  .photo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s ease;
+  }
+  .photo:hover :global(img) {
+    transform: scale(1.04);
+  }
+  .cap {
+    position: absolute;
+    inset: auto 0 0 0;
+    padding: 28px 12px 10px;
+    font-size: 0.82rem;
+    line-height: 1.35;
+    color: #fff;
+    background: linear-gradient(to top, rgb(5 13 26 / 0.85), transparent);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .photo:hover .cap,
+  .photo:focus-visible .cap {
+    opacity: 1;
+  }
+  @media (hover: none) {
+    .cap {
+      display: none;
+    }
+  }
+
+  .pager {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    gap: 16px;
+    margin-top: clamp(40px, 6vw, 64px);
+  }
+  .pager-link {
+    display: grid;
+    gap: 4px;
+    padding: 18px 20px;
+    text-decoration: none;
+    color: var(--text);
+  }
+  .pager-link:hover {
+    box-shadow: var(--shadow-md);
+  }
+  .pager-link.next {
+    text-align: right;
+  }
+  .pager-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+
+  /* Lightbox */
+  .lightbox {
+    width: 100vw;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: rgb(3 8 18 / 0.96);
+    color: #fff;
+  }
+  .lightbox::backdrop {
+    background: rgb(3 8 18 / 0.8);
+  }
+  .lightbox[open] {
+    display: grid;
+    place-items: center;
+  }
+  figure {
+    margin: 0;
+    display: grid;
+    gap: 12px;
+    justify-items: center;
+    padding: 56px 16px 64px;
+    max-width: 100%;
+  }
+  figure img {
+    max-width: min(100%, 1600px);
+    max-height: calc(100dvh - 160px);
+    width: auto;
+    border-radius: 6px;
+  }
+  figcaption {
+    max-width: 70ch;
+    text-align: center;
+    color: rgb(230 240 255 / 0.9);
+  }
+  .counter {
+    position: absolute;
+    top: 18px;
+    left: 20px;
+    margin: 0;
+    font-size: 0.9rem;
+    color: rgb(230 240 255 / 0.75);
+  }
+  .lb-btn {
+    position: absolute;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 0;
+    background: rgb(255 255 255 / 0.1);
+    color: #fff;
+    cursor: pointer;
+  }
+  .lb-btn:hover {
+    background: rgb(255 255 255 / 0.2);
+  }
+  .lb-close {
+    top: 10px;
+    right: 12px;
+  }
+  .lb-prev,
+  .lb-next {
+    top: 50%;
+    translate: 0 -50%;
+  }
+  .lb-prev {
+    left: 12px;
+  }
+  .lb-next {
+    right: 12px;
+  }
+  @media (max-width: 640px) {
+    .lb-prev,
+    .lb-next {
+      top: auto;
+      bottom: 12px;
+      translate: none;
+    }
+  }
+</style>

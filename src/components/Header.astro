@@ -1,0 +1,205 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/brand/logo.png';
+import { nav, site } from '../data/site';
+import { isActive, withBase } from '../lib/url';
+import Icon from './Icon.astro';
+
+const pathname = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="container bar">
+    <a class="brand" href={withBase('/')} aria-label={`${site.name}, home`}>
+      <Image src={logo} alt="" width={44} height={44} layout="fixed" loading="eager" class="brand-logo" />
+      <span class="brand-text">
+        <span class="brand-name">SubZero</span>
+        <span class="brand-num">Team {site.teamNumber}</span>
+      </span>
+    </a>
+
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span class="sr-only">Menu</span>
+      <Icon name="menu" size={24} class="icon-open" />
+      <Icon name="x" size={24} class="icon-close" />
+    </button>
+
+    <nav id="site-nav" class="nav" aria-label="Main">
+      <ul>
+        {
+          nav.map((item) => (
+            <li>
+              <a href={withBase(item.href)} aria-current={isActive(item.href, pathname) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <a class="btn btn--accent nav-cta" href={withBase('/contact/')}>Contact us</a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('.site-header');
+  const toggle = header?.querySelector<HTMLButtonElement>('.nav-toggle');
+  const setOpen = (open: boolean) => {
+    toggle?.setAttribute('aria-expanded', String(open));
+    header?.classList.toggle('is-open', open);
+    document.body.classList.toggle('nav-open', open);
+  };
+  toggle?.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && header?.classList.contains('is-open')) {
+      setOpen(false);
+      toggle?.focus();
+    }
+  });
+  window.matchMedia('(min-width: 960px)').addEventListener('change', (e) => e.matches && setOpen(false));
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgb(8 19 40 / 0.86);
+    backdrop-filter: saturate(160%) blur(12px);
+    -webkit-backdrop-filter: saturate(160%) blur(12px);
+    border-bottom: 1px solid rgb(255 255 255 / 0.08);
+    color: #fff;
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: var(--header-h);
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    text-decoration: none;
+  }
+  .brand :global(.brand-logo) {
+    width: 44px;
+    height: 44px;
+  }
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.05;
+  }
+  .brand-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: -0.01em;
+  }
+  .brand-num {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ice-300);
+  }
+
+  .nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 4px;
+  }
+  .nav a:not(.btn) {
+    display: block;
+    padding: 8px 12px;
+    border-radius: 8px;
+    color: rgb(230 240 255 / 0.85);
+    font-weight: 500;
+    text-decoration: none;
+  }
+  .nav a:not(.btn):hover {
+    color: #fff;
+    background: rgb(255 255 255 / 0.08);
+  }
+  .nav a[aria-current='page'] {
+    color: #fff;
+    box-shadow: inset 0 -2px 0 var(--ice-300);
+    border-radius: 0;
+  }
+  .nav-cta {
+    min-height: 40px;
+    padding: 0.5em 1.1em;
+  }
+
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: 0;
+    color: #fff;
+    padding: 8px;
+    margin-right: -8px;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+  .nav-toggle :global(.icon-close) {
+    display: none;
+  }
+
+  @media (min-width: 960px) {
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+  }
+
+  @media (max-width: 959.98px) {
+    .nav-toggle {
+      display: inline-flex;
+    }
+    .nav {
+      display: none;
+      position: fixed;
+      inset: var(--header-h) 0 0 0;
+      background: var(--navy-950);
+      padding: 24px var(--gutter) 40px;
+      overflow-y: auto;
+    }
+    .is-open .nav {
+      display: block;
+    }
+    .is-open :global(.icon-open) {
+      display: none;
+    }
+    .is-open :global(.icon-close) {
+      display: block;
+    }
+    .nav ul {
+      flex-direction: column;
+      gap: 0;
+      margin-bottom: 24px;
+    }
+    .nav a:not(.btn) {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      padding: 14px 4px;
+      border-radius: 0;
+      border-bottom: 1px solid rgb(255 255 255 / 0.08);
+    }
+    .nav a[aria-current='page'] {
+      box-shadow: none;
+      color: var(--ice-300);
+    }
+    .nav-cta {
+      width: 100%;
+    }
+  }
+  :global(body.nav-open) {
+    overflow: hidden;
+  }
+</style>

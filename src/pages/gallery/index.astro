@@ -1,0 +1,58 @@
+---
+import AlbumCard from '../../components/AlbumCard.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getAlbums } from '../../lib/gallery';
+
+const albums = await getAlbums();
+const years = [...new Set(albums.map((a) => a.year))];
+const photoCount = albums.reduce((n, a) => n + a.photos.length, 0);
+---
+
+<BaseLayout title="Gallery" description="Photos from SubZero Robotics competitions, build seasons, kickoffs and community outreach since 2015.">
+  <PageHeader
+    eyebrow="Gallery"
+    title="A decade of memories"
+    lead={`${photoCount} photos in ${albums.length} albums: competitions, build nights, kickoffs and community events.`}
+  />
+
+  <section class="section">
+    <div class="container">
+      {
+        years.map((year) => (
+          <section class="year-group" aria-labelledby={`y-${year}`}>
+            <h2 id={`y-${year}`} class="year">{year}</h2>
+            <div class="grid grid--4">
+              {albums
+                .filter((a) => a.year === year)
+                .map((album) => (
+                  <AlbumCard album={album} />
+                ))}
+            </div>
+          </section>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .year-group + .year-group {
+    margin-top: clamp(40px, 6vw, 64px);
+  }
+  .year {
+    font-size: 1.1rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .year::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+</style>

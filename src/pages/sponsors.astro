@@ -1,0 +1,327 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { getCollection } from 'astro:content';
+import Icon from '../components/Icon.astro';
+import PageHeader from '../components/PageHeader.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+
+import pitPhoto from '../assets/gallery/2016-world-championships/12.jpg';
+
+const sponsors = await getCollection('sponsors');
+const current = sponsors.filter((s) => s.data.status === 'current');
+const past = sponsors.filter((s) => s.data.status === 'past').sort((a, b) => a.data.name.localeCompare(b.data.name));
+
+// Optional sponsor logos: drop files into src/assets/sponsors/ and set `logo` in sponsors.yaml.
+const logos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/sponsors/*.{png,jpg,jpeg,webp,svg}', { eager: true });
+const logoFor = (file?: string) => (file ? logos[`/src/assets/sponsors/${file}`]?.default : undefined);
+
+const tiers = [
+  { name: 'Dynasty', amount: '$5,000+' },
+  { name: 'Diamond', amount: '$2,500+' },
+  { name: 'Platinum', amount: '$1,000+' },
+  { name: 'Gold', amount: '$500+' },
+  { name: 'Silver', amount: 'Up to $499' },
+];
+
+const impact = [
+  { icon: 'wrench', title: 'Robot & field parts', text: 'Motors, aluminum, electronics and the practice field elements we build every season.' },
+  { icon: 'map-pin', title: 'Competitions', text: 'Event registration plus transportation and lodging for our regional competitions.' },
+  { icon: 'school', title: 'Student opportunities', text: 'Hands-on engineering, business and leadership experience that shapes careers.' },
+  { icon: 'heart', title: 'Outreach', text: 'Camps, demos and programs that bring STEM to younger students in our community.' },
+] as const;
+
+const mailto = `mailto:${site.email}?subject=${encodeURIComponent('SubZero sponsorship (Attn: Business Department)')}`;
+---
+
+<BaseLayout
+  title="Sponsors"
+  description="Partner with SubZero Robotics, FRC Team 5690. Meet our sponsors, see sponsorship levels and learn how your support helps Esko students."
+>
+  <PageHeader
+    eyebrow="Sponsors & partners"
+    title="None of this happens without you."
+    lead="SubZero is funded by local businesses, foundations, community groups and families. Your support powers everything we do."
+  >
+    <div class="btn-row hero-ctas">
+      <a class="btn btn--accent" href={mailto}><Icon name="mail" size={18} /> Become a sponsor</a>
+      <a class="btn btn--ghost" href="#donate">Make a donation</a>
+    </div>
+  </PageHeader>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head section-head--center">
+        <p class="eyebrow">{new Date().getFullYear()} partners</p>
+        <h2>Thank you to our sponsors</h2>
+      </div>
+      <ul class="sponsor-grid" role="list">
+        {
+          current.map((s) => {
+            const logo = logoFor(s.data.logo);
+            const inner = logo ? <Image src={logo} alt={s.data.name} height={80} /> : <span class="sponsor-name">{s.data.name}</span>;
+            return (
+              <li class="card sponsor">
+                {s.data.url ? (
+                  <a href={s.data.url} rel="noopener sponsored" target="_blank">
+                    {inner}
+                  </a>
+                ) : (
+                  inner
+                )}
+              </li>
+            );
+          })
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">Why sponsor</p>
+        <h2>Invest in the next generation of engineers</h2>
+        <p class="lead">
+          Your support gives Esko students the chance to compete on the world stage of youth robotics, and the skills
+          to build careers in STEM.
+        </p>
+        <ul class="impact" role="list">
+          {
+            impact.map((i) => (
+              <li>
+                <span class="icon-badge">
+                  <Icon name={i.icon} size={20} />
+                </span>
+                <div>
+                  <h3>{i.title}</h3>
+                  <p>{i.text}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <Image src={pitPhoto} alt="Three smiling SubZero mentors at the 2016 FIRST Championship" width={720} widths={[480, 720, 1080]} sizes="(min-width: 960px) 560px, 100vw" class="rounded" />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head section-head--center">
+        <p class="eyebrow">Sponsorship levels</p>
+        <h2>Find the level that fits</h2>
+        <p class="lead">
+          Every level makes a difference. All partners are invited to join us in our team seating area at the Lake
+          Superior Regional, and Platinum partners and above get a guided tour of the event from our Business
+          Department.
+        </p>
+      </div>
+      <ol class="tiers" role="list">
+        {
+          tiers.map((t, i) => (
+            <li class:list={['card tier', `tier--${t.name.toLowerCase()}`]}>
+              <span class="tier-icon" aria-hidden="true">
+                <Icon name={i < 3 ? 'trophy' : 'star'} size={22} />
+              </span>
+              <h3>{t.name}</h3>
+              <p class="amount">{t.amount}</p>
+            </li>
+          ))
+        }
+      </ol>
+      <p class="center">
+        <a class="btn btn--primary" href={mailto}><Icon name="mail" size={18} /> Contact our Business Department</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--alt" id="donate">
+    <div class="container donate">
+      <div class="card donate-card">
+        <Icon name="gift" size={32} class="donate-icon" />
+        <h2>Make a donation</h2>
+        <p>
+          Individual gifts of any size help. Mail your donation, marked for <strong>SubZero Robotics</strong>, to:
+        </p>
+        <address>
+          {site.address.lines.map((line) => <span>{line}</span>)}
+        </address>
+        <p class="muted small">Questions about giving? Email <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+      </div>
+      <div>
+        <h2 class="past-title">Past supporters</h2>
+        <p class="muted">We're grateful to everyone who has supported SubZero over the years, including:</p>
+        <ul class="past" role="list">
+          {past.map((s) => <li>{s.data.name}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero-ctas {
+    margin-top: 28px;
+  }
+  .sponsor-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+  }
+  .sponsor {
+    display: grid;
+    place-items: center;
+    min-height: 120px;
+    padding: 20px;
+    text-align: center;
+  }
+  .sponsor a {
+    color: var(--text);
+    text-decoration: none;
+  }
+  .sponsor a:hover .sponsor-name {
+    color: var(--primary);
+  }
+  .sponsor-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.2rem;
+    line-height: 1.25;
+  }
+  .sponsor :global(img) {
+    max-height: 80px;
+    width: auto;
+  }
+  .split {
+    display: grid;
+    gap: clamp(32px, 5vw, 72px);
+    align-items: center;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  }
+  :global(.rounded) {
+    border-radius: calc(var(--radius) + 6px);
+    box-shadow: var(--shadow-md);
+    width: 100%;
+  }
+  .impact {
+    list-style: none;
+    padding: 0;
+    margin: 24px 0 0;
+    display: grid;
+    gap: 18px;
+  }
+  .impact li {
+    display: flex;
+    gap: 14px;
+  }
+  .impact h3 {
+    font-size: 1.08rem;
+    margin: 2px 0 2px;
+  }
+  .impact p {
+    margin: 0;
+    color: var(--text-muted);
+  }
+  .icon-badge {
+    flex: none;
+    display: inline-grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 12%, transparent);
+  }
+  .tiers {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 36px;
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+  }
+  .tier {
+    padding: 24px 20px;
+    text-align: center;
+    border-top: 4px solid var(--tier, var(--primary));
+  }
+  .tier--dynasty {
+    --tier: #7c3aed;
+  }
+  .tier--diamond {
+    --tier: #38bdf8;
+  }
+  .tier--platinum {
+    --tier: #94a3b8;
+  }
+  .tier--gold {
+    --tier: var(--gold-400);
+  }
+  .tier--silver {
+    --tier: #cbd5e1;
+  }
+  .tier-icon {
+    display: inline-grid;
+    color: var(--tier);
+    margin-bottom: 8px;
+  }
+  .tier h3 {
+    margin: 0;
+  }
+  .amount {
+    margin: 4px 0 0;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.35rem;
+    color: var(--primary);
+  }
+  .center {
+    text-align: center;
+  }
+  .donate {
+    display: grid;
+    gap: clamp(32px, 5vw, 64px);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+    align-items: start;
+  }
+  .donate-card {
+    padding: clamp(24px, 4vw, 40px);
+  }
+  .donate-card :global(.donate-icon) {
+    color: var(--primary);
+    margin-bottom: 12px;
+  }
+  address {
+    font-style: normal;
+    display: grid;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    border-radius: var(--radius-sm);
+    background: var(--surface-2);
+    font-weight: 500;
+  }
+  .small {
+    font-size: 0.92rem;
+  }
+  .past-title {
+    font-size: 1.5rem;
+  }
+  .past {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    columns: 2 220px;
+    column-gap: 24px;
+  }
+  .past li {
+    break-inside: avoid;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.95rem;
+  }
+</style>

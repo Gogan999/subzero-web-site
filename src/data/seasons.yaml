@@ -7,6 +7,7 @@
   game: "REBUILT"
   robot: "DAKOTA"
   summary: "Two regionals, two playoff runs, and a Creativity Award at our home event."
+  album: "2026-season-highlights"
   events:
     - name: "Lake Superior Regional"
       location: "Duluth, MN"
@@ -48,6 +49,7 @@
   game: "CRESCENDO"
   robot: "Lil' Scoots"
   summary: "Playoff runs at both regionals and a Team Spirit Award in Colorado."
+  album: "2024-mn-state"
   events:
     - name: "Lake Superior Regional"
       location: "Duluth, MN"

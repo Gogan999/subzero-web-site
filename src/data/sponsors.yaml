@@ -82,6 +82,7 @@
   name: "Daugherty Appliance Sales"
   status: current
   tier: silver
+  logo: daugherty-appliance.png
 - id: national-bank-of-commerce
   name: "National Bank of Commerce"
   status: current

@@ -4,7 +4,7 @@ import PageHeader from '../components/PageHeader.astro';
 import SponsorWall from '../components/SponsorWall.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../data/site';
-import { getSponsors, tiers } from '../lib/sponsors';
+import { getSponsors } from '../lib/sponsors';
 
 const past = (await getSponsors('past')).sort((a, b) => a.name.localeCompare(b.name));
 
@@ -65,20 +65,10 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent('SubZero spons
         </ul>
       </div>
       <div class="card levels">
-        <p class="eyebrow">Sponsorship levels</p>
-        <ol class="tiers" role="list">
-          {
-            tiers.map((t) => (
-              <li class={`tier tier--${t.key}`}>
-                <span class="tier-name">{t.label}</span>
-                <span class="tier-amount">{t.amount}</span>
-              </li>
-            ))
-          }
-        </ol>
-        <p class="muted small">
-          Higher levels get more prominent recognition on this site. All partners are invited to join us at the Lake
-          Superior Regional.
+        <p class="eyebrow">Partner with us</p>
+        <p>
+          Every partner is recognized on this site and invited to join us at the Lake Superior Regional. Reach out to our
+          Business Department to talk about sponsorship.
         </p>
         <a class="btn btn--primary" href={mailto}><Icon name="mail" size={18} /> Contact our Business Department</a>
       </div>
@@ -161,44 +151,6 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent('SubZero spons
   }
   .levels {
     padding: clamp(20px, 3vw, 28px);
-  }
-  .tiers {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 14px;
-    display: grid;
-    gap: 6px;
-  }
-  .tier {
-    display: flex;
-    justify-content: space-between;
-    padding: 9px 14px;
-    border-radius: var(--radius-sm);
-    background: var(--surface-2);
-    border-left: 4px solid var(--tier);
-  }
-  .tier-name {
-    font-family: var(--font-display);
-    font-weight: 700;
-  }
-  .tier-amount {
-    font-weight: 600;
-    color: var(--primary);
-  }
-  .tier--dynasty {
-    --tier: #7c3aed;
-  }
-  .tier--diamond {
-    --tier: #38bdf8;
-  }
-  .tier--platinum {
-    --tier: #94a3b8;
-  }
-  .tier--gold {
-    --tier: var(--gold-400);
-  }
-  .tier--silver {
-    --tier: #cbd5e1;
   }
   .small {
     font-size: 0.9rem;

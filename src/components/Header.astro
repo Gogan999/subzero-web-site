@@ -64,11 +64,20 @@ const pathname = Astro.url.pathname;
     position: sticky;
     top: 0;
     z-index: 50;
+    border-bottom: 1px solid rgb(255 255 255 / 0.08);
+    color: #fff;
+  }
+  /* The frosted backdrop lives on a pseudo-element: backdrop-filter on the
+     header itself would make it the containing block for the fixed mobile
+     menu, squashing the menu to the header's height (notably in Safari). */
+  .site-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
     background: rgb(8 19 40 / 0.86);
     backdrop-filter: saturate(160%) blur(12px);
     -webkit-backdrop-filter: saturate(160%) blur(12px);
-    border-bottom: 1px solid rgb(255 255 255 / 0.08);
-    color: #fff;
   }
   .bar {
     display: flex;
@@ -166,6 +175,7 @@ const pathname = Astro.url.pathname;
       display: none;
       position: fixed;
       inset: var(--header-h) 0 0 0;
+      height: calc(100dvh - var(--header-h));
       background: var(--navy-950);
       padding: 24px var(--gutter) 40px;
       overflow-y: auto;

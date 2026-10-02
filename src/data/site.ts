@@ -12,8 +12,8 @@ export const site = {
     'SubZero Robotics is FIRST Robotics Competition Team 5690 from Esko High School in Esko, Minnesota. Students design, build and program competition robots while learning engineering, business and leadership skills.',
   email: 'subzerorobotics@esko.k12.mn.us',
   coaches: [
-    { name: 'Justin Scheider', email: 'jscheider@esko.k12.mn.us' },
-    { name: 'Laura Zimny', email: 'lzimny@esko.k12.mn.us' },
+    { name: 'Logan Mills', email: 'gogan99@gmail.com' },
+    { name: 'Lexxy Napper', email: 'lexnapper@gmail.com' },
   ],
   address: {
     lines: ['SubZero Robotics', 'Esko Public Schools', '2 E. Hwy 61, P.O. Box 10', 'Esko, MN 55733'],

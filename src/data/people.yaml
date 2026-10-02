@@ -2,23 +2,23 @@
 # group: coach | mentor | consultant
 # `focus` = what they help with on the team; `job` = their day job (optional).
 
-- id: justin-scheider
-  name: "Justin Scheider"
+- id: Logan-Mills
+  name: "Logan Mills"
   group: coach
   focus: "Design/Fabrication, Programming, Electrical"
-  job: "Industrial Technology, Esko Public Schools"
+  job: "Designer at Cirrus Aircraft"
+- id: Lexxy-Napper
+  name: "Lexxy Napper"
+  group: coach
+  focus: "Design/Fabrication, Electrical"
+  job: "Designer at Cirrus Aircraft"
+
 - id: laura-zimny
   name: "Laura Zimny"
-  group: coach
-  focus: "Safety, Media, Strategy"
+  group: mentor
+  focus: "Strategy, Team Opperations"
   job: "Chemistry/Physical Science, Esko Public Schools"
   note: "2025 Woodie Flowers Finalist"
-- id: branda-thawits
-  name: "Branda Thawits"
-  group: coach
-  focus: "Business, Graphic Design"
-  job: "Elementary Special Education, Esko Public Schools"
-
 - id: jerry-frederick
   name: "Jerry Frederick"
   group: mentor
@@ -29,44 +29,22 @@
   group: mentor
   focus: "Programming, Fabrication"
   job: "Physics Professor, University of Minnesota Duluth"
-- id: julie-frederick
-  name: "Julie Frederick"
-  group: mentor
 - id: scott-thompson
   name: "Scott Thompson"
   group: mentor
   focus: "Fabrication"
-- id: sara-omberg
-  name: "Sara Omberg"
+- id: Josh-Michaud
+  name: "Josh Michaud"
   group: mentor
-  focus: "Electrical"
-  job: "Quality Assurance Coordinator, Sappi"
-- id: paul-omberg
-  name: "Paul Omberg"
+  focus: "Programing"
+- id: Levi-Belland
+  name: "Levi Belland"
   group: mentor
-  focus: "Strategy"
-  job: "Maintenance Manager, Midwest Energy Resources Company"
-- id: andrea-perlinger
-  name: "Andrea Perlinger"
-  group: mentor
-  focus: "Graphic Design"
-  job: "Jewelry Artist, Art in the Alley"
-- id: steve-lanthier
-  name: "Steve Lanthier"
-  group: mentor
-  focus: "Design/Fabrication"
-  job: "Simulator Technician, Delaware Research Group"
-- id: tammy-stueber
-  name: "Tammy Stueber"
-  group: mentor
-  focus: "Business"
-  job: "Sappi"
+  focus: "Programing"
+  job: "Lumyn Labs, Rip Saw Robotics"
 
-- id: al-rudeck
-  name: "Al Rudeck"
+- id: test
+  name: "John Doe"
   group: consultant
-  focus: "Business"
-- id: darren-rud
-  name: "Darren Rud"
-  group: consultant
-  focus: "Business"
+  focus: "Consultanting"
+

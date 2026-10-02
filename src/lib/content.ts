@@ -1,3 +1,4 @@
+import type { ImageMetadata } from 'astro';
 import { getCollection } from 'astro:content';
 
 export async function getNews() {
@@ -30,3 +31,26 @@ export function formatDate(date: Date, style: 'long' | 'short' = 'long'): string
     timeZone: 'UTC',
   });
 }
+
+// Robot photos live in src/assets/robots/ (named "<year>.jpg" by default).
+const robotPhotos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/robots/*.{jpg,jpeg,png,webp}', {
+  eager: true,
+});
+
+export async function getRobots() {
+  const [robots, seasons] = await Promise.all([getCollection('robots'), getCollection('seasons')]);
+  const awardsByYear = new Map(seasons.map((s) => [s.id, s.data.awards]));
+  return robots
+    .map((r) => {
+      const file = r.data.photo ?? Object.keys(robotPhotos).find((p) => /\/(\d{4})\.\w+$/.exec(p)?.[1] === r.id)?.split('/').pop();
+      return {
+        year: r.id,
+        ...r.data,
+        image: file ? robotPhotos[`/src/assets/robots/${file}`]?.default : undefined,
+        awards: awardsByYear.get(r.id) ?? [],
+      };
+    })
+    .sort((a, b) => Number(b.year) - Number(a.year));
+}
+
+export type Robot = Awaited<ReturnType<typeof getRobots>>[number];

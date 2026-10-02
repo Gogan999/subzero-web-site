@@ -90,9 +90,9 @@ const programs = [
       <ul class="programs" role="list">
         {
           programs.map((p) => (
-            <li class="program">
+            <li class="program card">
               <div class="media">
-                <Image src={p.image} alt={p.alt} width={720} height={480} fit="cover" widths={[480, 720, 1080]} sizes="(min-width: 960px) 540px, 100vw" />
+                <Image src={p.image} alt={p.alt} width={600} height={360} fit="cover" widths={[400, 600, 900]} sizes="(min-width: 1100px) 360px, (min-width: 700px) 45vw, 100vw" />
               </div>
               <div class="body">
                 <h2>{p.title}</h2>
@@ -128,40 +128,44 @@ const programs = [
     padding: 0;
     margin: 0;
     display: grid;
-    gap: clamp(40px, 6vw, 72px);
+    gap: 18px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
   }
   .program {
-    display: grid;
-    gap: clamp(20px, 4vw, 56px);
-    align-items: center;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
-  }
-  .program:nth-child(even) .media {
-    order: 2;
-  }
-  @media (max-width: 820px) {
-    .program:nth-child(even) .media {
-      order: 0;
-    }
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
   }
   .media :global(img) {
     width: 100%;
-    aspect-ratio: 3 / 2;
+    aspect-ratio: 5 / 3;
     object-fit: cover;
-    border-radius: calc(var(--radius) + 4px);
-    box-shadow: var(--shadow-md);
+  }
+  .body {
+    padding: 16px 18px 18px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
   }
   .body h2 {
-    font-size: clamp(1.5rem, 2.8vw, 2rem);
+    font-size: 1.2rem;
+    margin-bottom: 6px;
   }
   .body p {
     color: var(--text-muted);
-    font-size: 1.08rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+  .body .link-arrow {
+    margin-top: auto;
+    font-size: 0.92rem;
   }
   .center {
     text-align: center;
   }
   .center .lead {
     margin-inline: auto;
+    margin-bottom: 18px;
   }
 </style>

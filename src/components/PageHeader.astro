@@ -22,10 +22,11 @@ const { title, eyebrow, lead } = Astro.props;
 
 <style>
   .page-header {
-    padding-block: clamp(56px, 9vw, 112px) clamp(48px, 7vw, 88px);
+    padding-block: clamp(32px, 5vw, 60px) clamp(28px, 4.5vw, 52px);
   }
   h1 {
-    max-width: 18ch;
+    max-width: 22ch;
+    margin-bottom: 0.3em;
   }
   .lead {
     margin-bottom: 0;
@@ -34,7 +35,7 @@ const { title, eyebrow, lead } = Astro.props;
     position: absolute;
     right: max(-60px, calc(50% - 760px));
     top: 50%;
-    width: clamp(220px, 32vw, 420px);
+    width: clamp(160px, 22vw, 300px);
     height: auto;
     translate: 0 -50%;
     fill: none;

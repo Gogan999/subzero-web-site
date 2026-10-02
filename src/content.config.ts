@@ -57,6 +57,20 @@ const seasons = defineCollection({
   }),
 });
 
+const robots = defineCollection({
+  loader: file('./src/data/robots.yaml'),
+  schema: z.object({
+    name: z.string().optional(),
+    game: z.string(),
+    photo: z.string().optional(),
+    summary: z.string().optional(),
+    specs: z.array(z.string()).default([]),
+    binder: z.string().optional(),
+    video: z.url().optional(),
+  }),
+});
+
+// Sponsors: show a name, a logo, or both, sized by tier (or an explicit size).
 const sponsors = defineCollection({
   loader: file('./src/data/sponsors.yaml'),
   schema: z.object({
@@ -64,6 +78,9 @@ const sponsors = defineCollection({
     status: z.enum(['current', 'past']),
     url: z.url().optional(),
     logo: z.string().optional(),
+    display: z.enum(['logo', 'name', 'both']).optional(),
+    tier: z.enum(['dynasty', 'diamond', 'platinum', 'gold', 'silver']).optional(),
+    size: z.enum(['xl', 'lg', 'md', 'sm']).optional(),
   }),
 });
 
@@ -78,4 +95,4 @@ const people = defineCollection({
   }),
 });
 
-export const collections = { news, albums, seasons, sponsors, people };
+export const collections = { news, albums, seasons, robots, sponsors, people };

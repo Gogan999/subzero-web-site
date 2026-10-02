@@ -17,7 +17,8 @@ Most updates are just editing a text file. You don't need to know how to code.
 | Post news | Add a file to `src/content/news/` |
 | Add a photo album | Add photos to `src/assets/gallery/<album>/` + a file in `src/content/albums/` |
 | Add a new season / results / awards | `src/data/seasons.yaml` |
-| Update sponsors | `src/data/sponsors.yaml` |
+| Update sponsors | `src/data/sponsors.yaml` + logos in `src/assets/sponsors/` |
+| Add a robot | `src/data/robots.yaml` + photo in `src/assets/robots/` |
 | Update coaches & mentors | `src/data/people.yaml` |
 | Change emails, address, social links | `src/data/site.ts` |
 | Change departments or core values | `src/data/subteams.ts` |
@@ -80,7 +81,22 @@ Set `highlight: true` for a big season (a trophy marker), and `album: <album-id>
 
 ### Update sponsors
 
-Edit `src/data/sponsors.yaml`. Use `status: current` for this year's sponsors and `status: past` for the thank-you list. To show a logo instead of the name, put the image in `src/assets/sponsors/` and add `logo: their-logo.png`.
+Edit `src/data/sponsors.yaml`. Each sponsor can have:
+
+| Field | What it does |
+| --- | --- |
+| `status` | `current` (shown on the sponsor wall) or `past` (thank-you list) |
+| `tier` | `dynasty` ($5,000+), `diamond` ($2,500+), `platinum` ($1,000+), `gold` ($500+), `silver` (up to $499). Bigger tiers are shown bigger and first. Leave it out for in-kind partners. |
+| `logo` | an image file in `src/assets/sponsors/` (e.g. `gene-haas.png`) |
+| `display` | `logo`, `name` or `both` (default: logo if there is one, otherwise the name) |
+| `size` | `xl`, `lg`, `md`, `sm` or `xs` to override the size the tier gives |
+| `url` | optional link to their website |
+
+Sponsor amounts are never shown on the site, only the tier names.
+
+### Add or update a robot
+
+Edit `src/data/robots.yaml` (newest first) and put a photo in `src/assets/robots/` named after the year (e.g. `2027.jpg`). Each robot can list a few short `specs`, a `binder` link and a `video` link. Awards are pulled in automatically from `seasons.yaml`.
 
 ---
 

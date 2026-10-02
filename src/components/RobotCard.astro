@@ -1,0 +1,173 @@
+---
+import { Image } from 'astro:assets';
+import type { Robot } from '../lib/content';
+import Icon from './Icon.astro';
+
+interface Props {
+  robot: Robot;
+  featured?: boolean;
+}
+const { robot, featured = false } = Astro.props;
+const title = robot.name ?? `${robot.year} Robot`;
+---
+
+<article class:list={['robot-card card', { featured }]} id={`robot-${robot.year}`}>
+  <div class="media">
+    {
+      robot.image ? (
+        <Image src={robot.image} alt={`${title}, SubZero's ${robot.year} robot`} width={640} height={440} fit="cover" widths={[400, 640, 900]} sizes="(min-width: 1100px) 360px, (min-width: 700px) 45vw, 100vw" />
+      ) : (
+        <div class="placeholder frost" aria-hidden="true">
+          <Icon name="bot" size={56} />
+          <span>Photo coming soon</span>
+        </div>
+      )
+    }
+    <span class="year">{robot.year}</span>
+  </div>
+  <div class="body">
+    <p class="game">{robot.game}</p>
+    <h3>{title}</h3>
+    {robot.summary && <p class="summary">{robot.summary}</p>}
+    {
+      robot.specs.length > 0 && (
+        <ul class="specs" role="list">
+          {robot.specs.map((s) => (
+            <li>{s}</li>
+          ))}
+        </ul>
+      )
+    }
+    {
+      robot.awards.length > 0 && (
+        <ul class="awards" role="list">
+          {robot.awards.map((a) => (
+            <li class="pill pill--gold" title={a.event}>
+              <Icon name="trophy" size={12} /> {a.name.replace(/ sponsored by .*/, '')}
+            </li>
+          ))}
+        </ul>
+      )
+    }
+    {
+      (robot.binder || robot.video) && (
+        <div class="links">
+          {robot.binder && (
+            <a class="btn btn--primary btn--sm" href={robot.binder} rel="noopener" target="_blank">
+              <Icon name="pen" size={16} /> Technical binder
+            </a>
+          )}
+          {robot.video && (
+            <a class="btn btn--ghost btn--sm" href={robot.video} rel="noopener" target="_blank">
+              Watch
+            </a>
+          )}
+        </div>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .robot-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .featured {
+    border-color: color-mix(in srgb, var(--gold-400) 60%, var(--border));
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--gold-400) 40%, transparent),
+      var(--shadow-md);
+  }
+  .media {
+    position: relative;
+    aspect-ratio: 16 / 11;
+    background: var(--navy-900);
+  }
+  .media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .placeholder {
+    height: 100%;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 8px;
+    color: rgb(143 211 255 / 0.65);
+    font-size: 0.85rem;
+  }
+  .year {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgb(5 13 26 / 0.8);
+    color: #fff;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+  .featured .year {
+    background: var(--gold-400);
+    color: var(--on-accent);
+  }
+  .body {
+    padding: 16px 18px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+  }
+  .body > * {
+    margin: 0;
+  }
+  .game {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--primary);
+  }
+  h3 {
+    font-size: 1.35rem;
+  }
+  .summary {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  .specs {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .specs li {
+    font-size: 0.8rem;
+    padding: 3px 9px;
+    border-radius: 6px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+  }
+  .awards {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .awards .pill {
+    font-size: 0.75rem;
+  }
+  .links {
+    margin-top: auto;
+    padding-top: 6px;
+    display: flex;
+    gap: 8px;
+  }
+</style>

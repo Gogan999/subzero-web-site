@@ -1,143 +1,137 @@
 # Sponsors and partners.
-# status: "current" shows in the main grid; "past" shows in the thank-you list.
-# `url` and `logo` are optional. For a logo, drop the image in
-# src/assets/sponsors/ and set logo to its file name (e.g. "gene-haas.png").
+#
+# status:  current = this season's partners (shown big), past = thank-you list
+# tier:    dynasty ($5,000+) · diamond ($2,500+) · platinum ($1,000+) · gold ($500+) · silver (up to $499)
+#          Leave it out for in-kind partners (they're listed under "Partners").
+# display: logo | name | both   (default: logo if there's one, otherwise name)
+# size:    xl | lg | md | sm    (optional; normally set by the tier)
+# logo:    image file in src/assets/sponsors/ (e.g. "gene-haas.png")
+# url:     optional link to their website
 
-- id: esko-public-schools
-  name: "Esko Public Schools"
-  status: current
-  url: "https://www.esko.k12.mn.us/"
-- id: irving-community-club
-  name: "Irving Community Club"
-  status: current
+# ---- 2025–26 season ----
 - id: gene-haas-foundation
   name: "Gene Haas Foundation"
   status: current
+  tier: diamond
+  logo: gene-haas.png
   url: "https://www.ghaasfoundation.org/"
+- id: irving-community-club
+  name: "Irving Community Club"
+  status: current
+  tier: diamond
+  logo: irving-community-club.png
 - id: mont-du-lac
   name: "Mont du Lac"
   status: current
+  tier: platinum
+  logo: mont-du-lac.png
+  url: "https://www.montdulac.com/"
+- id: cirrus-design
+  name: "Cirrus Design Corporation"
+  status: current
+  tier: platinum
+  logo: cirrus.png
+  url: "https://cirrusaircraft.com/"
 - id: minnesota-power-foundation
   name: "Minnesota Power Foundation"
   status: current
+  tier: platinum
+  logo: minnesota-power.png
   url: "https://www.mnpower.com/"
 - id: essentia-health
   name: "Essentia Health"
   status: current
+  tier: platinum
+  logo: essentia-health.png
   url: "https://www.essentiahealth.org/"
-- id: cirrus-design
-  name: "Cirrus Design Corporation"
+- id: millers-roofing
+  name: "J.C.S. Miller's Roofing"
   status: current
-  url: "https://cirrusaircraft.com/"
-
-- id: burns-mcdonnell
-  name: "Burns & McDonnell"
-  status: past
-- id: gpm-inc
-  name: "GPM, Inc."
-  status: past
-- id: thrivent
-  name: "Thrivent Financial"
-  status: past
-- id: lake-superior-carl-perkins
-  name: "Lake Superior Carl Perkins Consortium"
-  status: past
-- id: allete-clean-energy
-  name: "ALLETE Clean Energy"
-  status: past
-- id: rockwell-automation
-  name: "Rockwell Automation"
-  status: past
-- id: medtronic
-  name: "Medtronic"
-  status: past
-- id: best-buy
-  name: "Best Buy"
-  status: past
-- id: boldt
-  name: "The BOLDT Company"
-  status: past
-- id: lahti-charitable-trust
-  name: "Lahti Charitable Trust"
-  status: past
-- id: ge-renewables
-  name: "GE Renewables"
-  status: past
-- id: nordex
-  name: "Nordex USA"
-  status: past
-- id: wanzek
-  name: "Wanzek Construction"
-  status: past
-- id: lakehead-constructors
-  name: "Lakehead Constructors"
-  status: past
-- id: benson-electric
-  name: "Benson Electric"
-  status: past
-- id: kiwanis-friendly-duluth
-  name: "Kiwanis Club of Friendly Duluth"
-  status: past
-- id: widdes-trailer-sales
-  name: "Widdes Trailer Sales"
-  status: past
-- id: ray-riihiluoma
-  name: "Ray Riihiluoma Inc."
-  status: past
-- id: power-north
-  name: "Power North IBEW/NECA LMCC"
-  status: past
-- id: russell-steel
-  name: "Russell Steel"
-  status: past
-- id: minnesota-marshmallow
-  name: "The Minnesota Marshmallow"
-  status: past
+  tier: gold
+  logo: millers-roofing.png
+- id: usg
+  name: "USG"
+  status: current
+  tier: gold
+  logo: usg.png
+- id: van-meter
+  name: "Van Meter"
+  status: current
+  tier: gold
+  logo: van-meter.jpg
 - id: buffalo-house
   name: "The Buffalo House"
-  status: past
-- id: eagles-1163
-  name: "Eagles 1163"
-  status: past
+  status: current
+  tier: silver
+  logo: buffalo-house.png
+- id: community-memorial-hospital
+  name: "Community Memorial Hospital"
+  status: current
+  tier: silver
+  logo: community-memorial-hospital.jpg
+- id: avidxchange
+  name: "AvidXchange"
+  status: current
+  tier: silver
 - id: northwoods-credit-union
   name: "Northwoods Credit Union"
-  status: past
-- id: steeles
-  name: "Steele's"
-  status: past
-- id: ips-cranes
-  name: "IPS Cranes"
-  status: past
-- id: harbor-freight
-  name: "Harbor Freight"
-  status: past
+  status: current
+  tier: silver
+  logo: northwoods-credit-union.png
+- id: daugherty-appliance
+  name: "Daugherty Appliance Sales"
+  status: current
+  tier: silver
+  logo: daugherty-appliance.png
 - id: national-bank-of-commerce
   name: "National Bank of Commerce"
-  status: past
-- id: members-cooperative
-  name: "Members Cooperative Credit Union"
-  status: past
-- id: epicurean
-  name: "Epicurean"
-  status: past
-- id: northwest-outlet
-  name: "Northwest Outlet"
-  status: past
-- id: midwest-energy-resources
-  name: "Midwest Energy Resources Company"
-  status: past
-- id: krech-ojard
-  name: "Krech Ojard & Associates"
-  status: past
-- id: earl-chamberlin
-  name: "Earl Chamberlin"
-  status: past
-- id: community-memorial-hospital
-  name: "Community Memorial Hospital – Sunnyside Health Care Center"
-  status: past
-- id: reliable-insurance
-  name: "Reliable Insurance Agency"
-  status: past
-- id: women-of-the-moose-256
-  name: "Women of the Moose, Cloquet Chapter No. 256"
-  status: past
+  status: current
+  tier: silver
+  logo: national-bank-of-commerce.png
+- id: esko-public-schools
+  name: "Esko Public Schools"
+  status: current
+  size: lg
+  display: both
+  logo: esko-public-schools.jpg
+  url: "https://www.esko.k12.mn.us/"
+
+# ---- Past supporters (thank you!) ----
+- { id: burns-mcdonnell, name: "Burns & McDonnell", status: past }
+- { id: gpm-inc, name: "GPM, Inc.", status: past }
+- { id: thrivent, name: "Thrivent Financial", status: past }
+- { id: lake-superior-carl-perkins, name: "Lake Superior Carl Perkins Consortium", status: past }
+- { id: neca, name: "Twin Ports Arrowhead Chapter NECA", status: past }
+- { id: ibew-242, name: "IBEW Local 242", status: past }
+- { id: widdes-trailer-sales, name: "Widdes Trailer Sales", status: past }
+- { id: compass-minerals, name: "Compass Minerals", status: past }
+- { id: altec, name: "Altec", status: past }
+- { id: moose-lodge, name: "Moose Lodge", status: past }
+- { id: allete-clean-energy, name: "ALLETE Clean Energy", status: past }
+- { id: rockwell-automation, name: "Rockwell Automation", status: past }
+- { id: medtronic, name: "Medtronic", status: past }
+- { id: best-buy, name: "Best Buy", status: past }
+- { id: boldt, name: "The BOLDT Company", status: past }
+- { id: lahti-charitable-trust, name: "Lahti Charitable Trust", status: past }
+- { id: ge-renewables, name: "GE Renewables", status: past }
+- { id: nordex, name: "Nordex USA", status: past }
+- { id: wanzek, name: "Wanzek Construction", status: past }
+- { id: lakehead-constructors, name: "Lakehead Constructors", status: past }
+- { id: benson-electric, name: "Benson Electric", status: past }
+- { id: kiwanis-friendly-duluth, name: "Kiwanis Club of Friendly Duluth", status: past }
+- { id: ray-riihiluoma, name: "Ray Riihiluoma Inc.", status: past }
+- { id: power-north, name: "Power North IBEW/NECA LMCC", status: past }
+- { id: russell-steel, name: "Russell Steel", status: past }
+- { id: minnesota-marshmallow, name: "The Minnesota Marshmallow", status: past }
+- { id: eagles-1163, name: "Eagles 1163", status: past }
+- { id: steeles, name: "Steele's", status: past }
+- { id: ips-cranes, name: "IPS Cranes", status: past }
+- { id: harbor-freight, name: "Harbor Freight", status: past }
+- { id: members-cooperative, name: "Members Cooperative Credit Union", status: past }
+- { id: epicurean, name: "Epicurean", status: past }
+- { id: northwest-outlet, name: "Northwest Outlet", status: past }
+- { id: midwest-energy-resources, name: "Midwest Energy Resources Company", status: past }
+- { id: krech-ojard, name: "Krech Ojard & Associates", status: past }
+- { id: earl-chamberlin, name: "Earl Chamberlin", status: past }
+- { id: reliable-insurance, name: "Reliable Insurance Agency", status: past }
+- { id: women-of-the-moose-256, name: "Women of the Moose, Cloquet Chapter No. 256", status: past }

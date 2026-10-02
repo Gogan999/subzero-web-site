@@ -1,0 +1,36 @@
+---
+import PageHeader from '../components/PageHeader.astro';
+import RobotCard from '../components/RobotCard.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+import { getRobots } from '../lib/content';
+
+const robots = await getRobots();
+---
+
+<BaseLayout
+  title="Robots"
+  description={`Every robot built by SubZero Robotics, FRC Team ${site.teamNumber}, since ${site.rookieYear}: names, games, specs, awards and technical binders.`}
+>
+  <PageHeader
+    eyebrow="Our robots"
+    title="Built in Esko."
+    lead={`${robots.length} robots and counting. Each one designed, machined, wired and programmed by students in a few short weeks.`}
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="robot-grid">
+        {robots.map((robot, i) => <RobotCard robot={robot} featured={i === 0} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .robot-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  }
+</style>

@@ -2,6 +2,8 @@
 title: "Coach Laura Zimny Named Woodie Flowers Finalist"
 date: 2025-03-01
 summary: "At the Northern Lights Regional, Coach Zimny was named a Woodie Flowers Finalist, and the team won the Gracious Professionalism Award."
+cover: ../../assets/news/woodie-flowers-finalist-2025.jpg
+coverAlt: "Coach Zimny and the SubZero team at the 2025 Northern Lights Regional, holding the Woodie Flowers Finalist Award banner and trophy"
 tags: ["2025 REEFSCAPE", "Awards"]
 featured: true
 ---

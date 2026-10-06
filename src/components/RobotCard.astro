@@ -50,11 +50,16 @@ const title = robot.name ?? `${robot.year} Robot`;
       )
     }
     {
-      (robot.binder || robot.video) && (
+      (robot.binder || robot.onshape || robot.video) && (
         <div class="links">
           {robot.binder && (
             <a class="btn btn--primary btn--sm" href={robot.binder} rel="noopener" target="_blank">
               <Icon name="pen" size={16} /> Technical binder
+            </a>
+          )}
+          {robot.onshape && (
+            <a class="btn btn--ghost btn--sm" href={robot.onshape} rel="noopener" target="_blank">
+              <Icon name="box" size={16} /> CAD model
             </a>
           )}
           {robot.video && (
@@ -168,6 +173,7 @@ const title = robot.name ?? `${robot.year} Robot`;
     margin-top: auto;
     padding-top: 6px;
     display: flex;
+    flex-wrap: wrap;
     gap: 8px;
   }
 </style>

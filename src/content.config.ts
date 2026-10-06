@@ -67,6 +67,7 @@ const robots = defineCollection({
     specs: z.array(z.string()).default([]),
     binder: z.string().optional(),
     video: z.url().optional(),
+    onshape: z.url().optional(),
   }),
 });
 

@@ -2,9 +2,11 @@
    SubZero Robotics: design tokens and base styles
    ========================================================================== */
 
+/* One dark look for the whole site (the "Combined" mockup): A's navy, ice and gold,
+   C's condensed Archivo headings, Barlow body text and Barlow Condensed labels. */
 :root {
   /* Brand palette */
-  --navy-950: #050d1a;
+  --navy-950: #050b16;
   --navy-900: #0a1730;
   --navy-800: #0f2244;
   --navy-700: #16305e;
@@ -17,65 +19,36 @@
   --gold-400: #fbbf24;
   --gold-500: #f5a70b;
 
-  /* Semantic tokens: light */
-  --bg: #f4f8fc;
-  --surface: #ffffff;
-  --surface-2: #eaf1f9;
-  --text: #0a1730;
-  --text-muted: #4a5b75;
-  --border: #d6e1ee;
-  --primary: var(--blue-600);
-  --primary-hover: #1a43bd;
-  --on-primary: #ffffff;
-  --link: var(--blue-600);
+  /* Semantic tokens */
+  --bg: #050b16;
+  --surface: #0c1626;
+  --surface-2: #0c1626;
+  --text: #e8f1ff;
+  --text-soft: #c9d6ea;
+  --text-muted: #8ea3c2;
+  --border: #1c2a42;
+  --primary: var(--ice-300);
+  --primary-hover: var(--ice-200);
+  --on-primary: #04121f;
+  --link: var(--ice-300);
   --accent: var(--gold-400);
   --on-accent: #1d1400;
   --focus: #f59e0b;
-  --shadow-sm: 0 1px 2px rgb(10 23 48 / 0.06), 0 1px 3px rgb(10 23 48 / 0.08);
-  --shadow-md: 0 4px 12px rgb(10 23 48 / 0.08), 0 12px 32px rgb(10 23 48 / 0.08);
+  --shadow-sm: none;
+  --shadow-md: 0 8px 28px rgb(0 0 0 / 0.45);
 
   /* Type */
-  --font-body: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --font-display: 'Space Grotesk Variable', var(--font-body);
+  --font-body: 'Barlow', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Archivo Variable', 'Arial Narrow', sans-serif;
+  --font-label: 'Barlow Condensed', 'Arial Narrow', sans-serif;
 
   /* Layout */
-  --container: 1200px;
+  --container: 1180px;
   --gutter: clamp(16px, 4vw, 32px);
-  --radius: 14px;
-  --radius-sm: 8px;
+  --radius: 2px;
+  --radius-sm: 2px;
   --header-h: 68px;
 
-  color-scheme: light;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
-    --bg: #060e1c;
-    --surface: #0d1a30;
-    --surface-2: #12223d;
-    --text: #e6eefa;
-    --text-muted: #9cb0cb;
-    --border: #1f3252;
-    --primary: #3b7cf6;
-    --primary-hover: #5a92f8;
-    --link: #8cc4ff;
-    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
-    --shadow-md: 0 8px 28px rgb(0 0 0 / 0.45);
-    color-scheme: dark;
-  }
-}
-:root[data-theme='dark'] {
-  --bg: #060e1c;
-  --surface: #0d1a30;
-  --surface-2: #12223d;
-  --text: #e6eefa;
-  --text-muted: #9cb0cb;
-  --border: #1f3252;
-  --primary: #3b7cf6;
-  --primary-hover: #5a92f8;
-  --link: #8cc4ff;
-  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
-  --shadow-md: 0 8px 28px rgb(0 0 0 / 0.45);
   color-scheme: dark;
 }
 
@@ -119,22 +92,23 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
-  line-height: 1.15;
-  letter-spacing: -0.01em;
+  font-stretch: 72%;
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 0.98;
+  letter-spacing: 0.005em;
   margin: 0 0 0.5em;
   text-wrap: balance;
 }
 h1 {
-  font-size: clamp(2rem, 4.6vw, 3.25rem);
-  font-weight: 700;
+  font-size: clamp(2.6rem, 7vw, 4.6rem);
 }
 h2 {
-  font-size: clamp(1.5rem, 3vw, 2.15rem);
-  font-weight: 700;
+  font-size: clamp(2rem, 4.6vw, 3.2rem);
 }
 h3 {
-  font-size: 1.3rem;
-  font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 800;
 }
 p {
   margin: 0 0 1em;
@@ -203,17 +177,17 @@ ol {
   display: flex;
   align-items: center;
   gap: 0.5em;
-  font-family: var(--font-display);
+  font-family: var(--font-label);
   font-size: 0.85rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--primary);
-  margin-bottom: 0.4rem;
+  color: var(--ice-300);
+  margin-bottom: 0.9rem;
 }
 .lead {
   font-size: clamp(1.05rem, 1.4vw, 1.18rem);
-  color: var(--text-muted);
+  color: var(--text-soft);
   max-width: 62ch;
 }
 .muted {
@@ -256,11 +230,13 @@ ol {
   gap: 0.5em;
   min-height: 46px;
   padding: 0.7em 1.35em;
-  border-radius: 999px;
+  border-radius: 0;
   border: 2px solid transparent;
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 1rem;
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   line-height: 1.2;
   text-decoration: none;
   cursor: pointer;
@@ -288,12 +264,12 @@ ol {
   background: var(--gold-500);
 }
 .btn--ghost {
-  border-color: currentColor;
-  color: inherit;
+  border-color: var(--ice-300);
+  color: var(--ice-300);
   background: transparent;
 }
 .btn--ghost:hover {
-  background: rgb(255 255 255 / 0.08);
+  background: rgb(143 211 255 / 0.1);
 }
 .btn-row {
   display: flex;
@@ -304,8 +280,10 @@ ol {
   display: inline-flex;
   align-items: center;
   gap: 0.35em;
-  font-family: var(--font-display);
-  font-weight: 600;
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   text-decoration: none;
 }
 .link-arrow:hover {
@@ -342,51 +320,49 @@ ol {
   display: inline-flex;
   align-items: center;
   gap: 0.4em;
-  padding: 0.25em 0.75em;
-  border-radius: 999px;
-  font-size: 0.8rem;
-  font-weight: 600;
+  padding: 0.35em 0.7em;
+  border-radius: 0;
+  font-family: var(--font-label);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   background: var(--surface-2);
   color: var(--text-muted);
   border: 1px solid var(--border);
 }
 .pill--gold {
-  background: color-mix(in srgb, var(--gold-400) 18%, transparent);
-  border-color: color-mix(in srgb, var(--gold-400) 55%, transparent);
-  color: inherit;
+  background: var(--gold-400);
+  border-color: var(--gold-400);
+  color: var(--on-accent);
 }
 
-/* ---------- Dark "frost" band (hero / page headers) ---------- */
+/* ---------- Dark band (hero / page headers / footer) ---------- */
 .frost {
   position: relative;
   isolation: isolate;
   color: #fff;
-  background:
-    radial-gradient(1200px 500px at 85% -10%, rgb(79 142 247 / 0.45), transparent 60%),
-    radial-gradient(900px 400px at -10% 110%, rgb(143 211 255 / 0.22), transparent 60%),
-    linear-gradient(160deg, var(--navy-800), var(--navy-950));
+  background: var(--bg);
   overflow: hidden;
-}
-.frost::before {
-  /* faint snowflake/grid texture */
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background-image:
-    linear-gradient(rgb(255 255 255 / 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(255 255 255 / 0.04) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: linear-gradient(to bottom, #000 0%, transparent 85%);
 }
 .frost .eyebrow {
   color: var(--ice-300);
 }
 .frost .lead {
-  color: rgb(230 245 255 / 0.85);
+  color: var(--text-soft);
 }
 .frost a:not(.btn) {
   color: var(--ice-200);
+}
+
+/* Ice-blue outlined year numerals and section-head links. */
+.ghost-num {
+  font-family: var(--font-display);
+  font-stretch: 72%;
+  font-weight: 900;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--ice-300);
+  font-variant-numeric: tabular-nums;
 }
 
 /* ---------- Prose (news posts) ---------- */
@@ -394,8 +370,8 @@ ol {
   font-size: 1.1rem;
 }
 .prose h2 {
-  font-size: 1.6rem;
-  margin-top: 2em;
+  font-size: 2rem;
+  margin-top: 1.6em;
 }
 .prose h3 {
   margin-top: 1.6em;

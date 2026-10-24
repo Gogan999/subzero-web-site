@@ -6,12 +6,14 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getNews } from '../../lib/content';
 import { withBase } from '../../lib/url';
 
+import headerPhoto from '../../assets/gallery/2024-mn-state/01.jpg';
+
 const posts = await getNews();
 const years = [...new Set(posts.map((p) => p.data.date.getUTCFullYear()))];
 ---
 
 <BaseLayout title="News" description="News, competition recaps and team updates from SubZero Robotics, FRC Team 5690.">
-  <PageHeader eyebrow="News" title="From the pits" lead="Competition recaps, awards, outreach and team updates.">
+  <PageHeader image={headerPhoto} eyebrow="News" title="From the pits" lead="Competition recaps, awards, outreach and team updates.">
     <p class="rss">
       <a href={withBase('/rss.xml')}><Icon name="rss" size={16} /> Subscribe via RSS</a>
     </p>

@@ -5,6 +5,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../data/site';
 import { getRobots } from '../lib/content';
 
+import headerPhoto from '../assets/robots/2019.jpg';
+
 const robots = await getRobots();
 ---
 
@@ -15,6 +17,7 @@ const robots = await getRobots();
   <PageHeader
     eyebrow="Our robots"
     title="Built in Esko."
+    image={headerPhoto}
     lead={`${robots.length} robots and counting. Each one designed, machined, wired and programmed by students in a few short weeks.`}
   />
 
@@ -31,6 +34,16 @@ const robots = await getRobots();
   .robot-grid {
     display: grid;
     gap: 20px;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  @media (max-width: 1000px) {
+    .robot-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 640px) {
+    .robot-grid {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

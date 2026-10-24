@@ -88,8 +88,9 @@ const year = new Date().getFullYear();
 
 <style>
   .site-footer {
-    padding-top: clamp(48px, 7vw, 80px);
+    padding-top: clamp(48px, 7vw, 72px);
     font-size: 0.95rem;
+    border-top: 1px solid var(--border);
   }
   .grid-footer {
     display: grid;
@@ -127,18 +128,25 @@ const year = new Date().getFullYear();
   .brand strong {
     display: block;
     font-family: var(--font-display);
-    font-size: 1.25rem;
+    font-stretch: 72%;
+    font-weight: 900;
+    font-size: 1.6rem;
+    line-height: 1.05;
+    text-transform: uppercase;
   }
   .muted-light,
   p {
-    color: rgb(214 228 247 / 0.78);
+    color: var(--text-muted);
   }
   .muted-light {
     font-size: 0.85rem;
   }
   h2 {
-    font-size: 0.85rem;
-    letter-spacing: 0.12em;
+    font-family: var(--font-label);
+    font-stretch: normal;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--ice-300);
     margin-bottom: 14px;
@@ -174,8 +182,9 @@ const year = new Date().getFullYear();
     width: 42px;
     height: 42px;
     justify-content: center;
-    border-radius: 50%;
-    background: rgb(255 255 255 / 0.08);
+    border-radius: 0;
+    border: 1px solid var(--border);
+    background: var(--surface);
   }
   .social a:hover {
     background: rgb(255 255 255 / 0.16);

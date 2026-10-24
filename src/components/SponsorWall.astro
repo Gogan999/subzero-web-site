@@ -12,14 +12,13 @@ const strip = variant === 'strip' ? (await getSponsors('current')).sort((a, b) =
 function order(size: string) {
   return ['xl', 'lg', 'md', 'sm', 'xs'].indexOf(size);
 }
-const minWidth = { xl: 300, lg: 240, md: 200, sm: 170, xs: 150 } as const;
 ---
 
 {
   variant === 'full' ? (
     <div class="wall">
       {groups.map((g) => (
-        <ul class="wall-grid" role="list" style={`--min:${minWidth[g.sponsors[0].size]}px`}>
+        <ul class={`wall-row row-${g.sponsors[0].size}`} role="list">
             {g.sponsors.map((s) => (
               <li>
                 <SponsorLogo sponsor={s} />
@@ -40,19 +39,52 @@ const minWidth = { xl: 300, lg: 240, md: 200, sm: 170, xs: 150 } as const;
 }
 
 <style>
+  /* One centered row per giving level, largest first; tile width is the only cue. */
   .wall {
     display: grid;
-    gap: 16px;
+    gap: 14px;
   }
-  .wall-grid {
+  .wall-row {
     list-style: none;
     padding: 0;
     margin: 0;
-    display: grid;
-    gap: 12px;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--min)), 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
   }
-  .wall-grid li,
+  .wall-row li {
+    flex: 0 1 var(--w);
+  }
+  .row-xl {
+    --w: 360px;
+  }
+  .row-lg {
+    --w: 300px;
+  }
+  .row-md {
+    --w: 228px;
+  }
+  .row-sm {
+    --w: 176px;
+  }
+  .row-xs {
+    --w: 136px;
+  }
+  @media (max-width: 640px) {
+    .row-xl,
+    .row-lg {
+      --w: 100%;
+    }
+    .row-md {
+      --w: calc(50% - 7px);
+    }
+    .row-sm,
+    .row-xs {
+      --w: calc(33.333% - 10px);
+    }
+  }
+  .wall-row li,
   .strip li {
     display: grid;
   }

@@ -4,6 +4,8 @@ import PageHeader from '../components/PageHeader.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../data/site';
 import { withBase } from '../lib/url';
+
+import headerPhoto from '../assets/brand/team-photo.jpg';
 ---
 
 <BaseLayout
@@ -11,6 +13,7 @@ import { withBase } from '../lib/url';
   description="Contact SubZero Robotics, FRC Team 5690 in Esko, Minnesota: email the team or coaches, follow us on social media, or learn how to join."
 >
   <PageHeader
+    image={headerPhoto}
     eyebrow="Contact"
     title="Let's talk robots."
     lead="Questions, sponsorship, event invitations or just want to say hi? We'd love to hear from you."
@@ -137,9 +140,9 @@ import { withBase } from '../lib/url';
     place-items: center;
     width: 46px;
     height: 46px;
-    border-radius: 12px;
-    color: var(--primary);
-    background: color-mix(in srgb, var(--primary) 12%, transparent);
+    color: var(--ice-300);
+    border: 1px solid rgb(143 211 255 / 0.4);
+    background: rgb(143 211 255 / 0.08);
   }
   .join {
     display: grid;

@@ -4,6 +4,8 @@ import PageHeader from '../../components/PageHeader.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getAlbums } from '../../lib/gallery';
 
+import headerPhoto from '../../assets/gallery/2026-season-highlights/01.jpg';
+
 const albums = await getAlbums();
 const years = [...new Set(albums.map((a) => a.year))];
 const photoCount = albums.reduce((n, a) => n + a.photos.length, 0);
@@ -11,6 +13,7 @@ const photoCount = albums.reduce((n, a) => n + a.photos.length, 0);
 
 <BaseLayout title="Gallery" description="Photos from SubZero Robotics competitions, build seasons, kickoffs and community outreach since 2015.">
   <PageHeader
+    image={headerPhoto}
     eyebrow="Gallery"
     title="A decade of memories"
     lead={`${photoCount} photos in ${albums.length} albums: competitions, build nights, kickoffs and community events.`}

@@ -11,7 +11,7 @@ const { robot, featured = false } = Astro.props;
 const title = robot.name ?? `${robot.year} Robot`;
 ---
 
-<article class:list={['robot-card card', { featured }]} id={`robot-${robot.year}`}>
+<article class:list={['robot-card', { featured }]} id={`robot-${robot.year}`}>
   <div class="media">
     {
       robot.image ? (
@@ -78,12 +78,15 @@ const title = robot.name ?? `${robot.year} Robot`;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    transition: border-color 0.2s ease;
+  }
+  .robot-card:hover {
+    border-color: rgb(143 211 255 / 0.5);
   }
   .featured {
-    border-color: color-mix(in srgb, var(--gold-400) 60%, var(--border));
-    box-shadow:
-      0 0 0 1px color-mix(in srgb, var(--gold-400) 40%, transparent),
-      var(--shadow-md);
+    border-color: var(--gold-400);
   }
   .media {
     position: relative;
@@ -102,62 +105,75 @@ const title = robot.name ?? `${robot.year} Robot`;
     justify-items: center;
     gap: 8px;
     color: rgb(143 211 255 / 0.65);
+    font-family: var(--font-label);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
     font-size: 0.85rem;
   }
   .year {
     position: absolute;
-    top: 12px;
-    left: 12px;
-    padding: 4px 10px;
-    border-radius: 999px;
-    background: rgb(5 13 26 / 0.8);
+    top: 0;
+    left: 0;
+    padding: 6px 12px;
+    background: rgb(5 11 22 / 0.88);
     color: #fff;
     font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 0.9rem;
+    font-stretch: 72%;
+    font-weight: 900;
+    font-size: 1.15rem;
+    letter-spacing: 0.02em;
   }
   .featured .year {
     background: var(--gold-400);
     color: var(--on-accent);
   }
   .body {
-    padding: 16px 18px 18px;
+    padding: 18px 20px 20px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
     flex: 1;
   }
   .body > * {
     margin: 0;
   }
   .game {
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
+    font-family: var(--font-label);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--primary);
+    color: var(--ice-300);
   }
   h3 {
-    font-size: 1.35rem;
+    font-size: 2rem;
   }
   .summary {
-    color: var(--text-muted);
+    color: var(--text-soft);
     font-size: 0.95rem;
     line-height: 1.5;
   }
   .specs {
     list-style: none;
     padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
+    border-top: 1px solid var(--border);
   }
   .specs li {
-    font-size: 0.8rem;
-    padding: 3px 9px;
-    border-radius: 6px;
-    background: var(--surface-2);
-    border: 1px solid var(--border);
+    display: flex;
+    gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.88rem;
+    line-height: 1.4;
+  }
+  .specs li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    margin-top: 7px;
+    flex: none;
+    background: var(--ice-300);
+    transform: rotate(45deg);
   }
   .awards {
     list-style: none;

@@ -11,10 +11,10 @@ import headerPhoto from '../assets/gallery/2026-season-highlights/17.jpg';
 const past = (await getSponsors('past')).sort((a, b) => a.name.localeCompare(b.name));
 
 const impact = [
-  { icon: 'wrench', title: 'Robot & field parts', text: 'Motors, aluminum, electronics and practice field elements.' },
-  { icon: 'map-pin', title: 'Competitions', text: 'Event registration, travel and lodging for regionals.' },
-  { icon: 'school', title: 'Student growth', text: 'Hands-on engineering, business and leadership experience.' },
-  { icon: 'heart', title: 'Outreach', text: 'Camps and demos that bring STEM to younger students.' },
+  { title: 'Robot and field parts', text: 'Motors, aluminum, electronics and practice field elements.' },
+  { title: 'Competitions', text: 'Event registration, travel and lodging for regionals.' },
+  { title: 'Student growth', text: 'Hands-on engineering, business and leadership experience.' },
+  { title: 'Outreach', text: 'Camps and demos that bring STEM to younger students.' },
 ] as const;
 
 const mailto = `mailto:${site.email}?subject=${encodeURIComponent('SubZero sponsorship (Attn: Business Department)')}`;
@@ -26,13 +26,12 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent('SubZero spons
 >
   <PageHeader
     image={headerPhoto}
-    eyebrow="Sponsors & partners"
-    title="None of this happens without you."
-    lead="SubZero is funded by local businesses, foundations, community groups and families. Your support powers everything we do."
+    title="Sponsors"
+    lead="SubZero is funded by local businesses, foundations, community groups and families. Their support pays for parts, travel and outreach."
   >
     <div class="btn-row hero-ctas">
-      <a class="btn btn--accent" href={mailto}><Icon name="mail" size={18} /> Become a sponsor</a>
-      <a class="btn btn--ghost" href="#donate">Make a donation</a>
+      <a class="btn btn--primary" href={mailto}>Become a sponsor</a>
+      <a class="textlink" href="#donate">Make a donation</a>
     </div>
   </PageHeader>
 
@@ -49,15 +48,11 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent('SubZero spons
   <section class="section section--alt" id="levels">
     <div class="container sponsor-info">
       <div>
-        <p class="eyebrow">Why sponsor</p>
-        <h2>Invest in the next generation of engineers</h2>
+        <h2>What sponsorship pays for</h2>
         <ul class="impact" role="list">
           {
             impact.map((i) => (
               <li>
-                <span class="icon-badge">
-                  <Icon name={i.icon} size={18} />
-                </span>
                 <div>
                   <h3>{i.title}</h3>
                   <p>{i.text}</p>
@@ -68,12 +63,12 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent('SubZero spons
         </ul>
       </div>
       <div class="card levels">
-        <p class="eyebrow">Partner with us</p>
+        <h3>Partner with us</h3>
         <p>
           Every partner is recognized on this site and invited to join us at the Lake Superior Regional. Reach out to our
           Business Department to talk about sponsorship.
         </p>
-        <a class="btn btn--primary" href={mailto}><Icon name="mail" size={18} /> Contact our Business Department</a>
+        <a class="btn btn--primary" href={mailto}>Contact our Business Department</a>
       </div>
     </div>
   </section>
@@ -81,7 +76,6 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent('SubZero spons
   <section class="section" id="donate">
     <div class="container donate">
       <div class="card donate-card">
-        <Icon name="gift" size={28} class="donate-icon" />
         <div>
           <h2>Make a donation</h2>
           <p>
@@ -130,10 +124,13 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent('SubZero spons
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
   }
   .impact li {
-    display: flex;
-    gap: 12px;
+    border-top: 1px solid var(--border);
+    padding-top: 10px;
   }
   .impact h3 {
+    font-family: var(--font-body);
+    font-stretch: normal;
+    font-weight: 600;
     font-size: 1rem;
     margin: 0 0 2px;
   }
@@ -141,16 +138,6 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent('SubZero spons
     margin: 0;
     font-size: 0.92rem;
     color: var(--text-muted);
-  }
-  .icon-badge {
-    flex: none;
-    display: inline-grid;
-    place-items: center;
-    width: 38px;
-    height: 38px;
-    color: var(--ice-300);
-    border: 1px solid rgb(143 211 255 / 0.4);
-    background: rgb(143 211 255 / 0.08);
   }
   .levels {
     padding: clamp(20px, 3vw, 28px);
@@ -171,10 +158,6 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent('SubZero spons
   }
   .donate-card h2 {
     font-size: 1.4rem;
-  }
-  .donate-card :global(.donate-icon) {
-    flex: none;
-    color: var(--primary);
   }
   address {
     font-style: normal;

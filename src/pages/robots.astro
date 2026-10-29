@@ -15,10 +15,9 @@ const robots = await getRobots();
   description={`Every robot built by SubZero Robotics, FRC Team ${site.teamNumber}, since ${site.rookieYear}: names, games, specs, awards and technical binders.`}
 >
   <PageHeader
-    eyebrow="Our robots"
-    title="Built in Esko."
+    title="Our robots"
     image={headerPhoto}
-    lead={`${robots.length} robots and counting. Each one designed, machined, wired and programmed by students in a few short weeks.`}
+    lead={`${robots.length} robots since ${site.rookieYear}, each one designed, machined, wired and programmed by students in a few weeks each winter.`}
   />
 
   <section class="section">
@@ -33,7 +32,7 @@ const robots = await getRobots();
 <style>
   .robot-grid {
     display: grid;
-    gap: 20px;
+    gap: 40px 28px;
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
   @media (max-width: 1000px) {

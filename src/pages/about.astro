@@ -1,8 +1,6 @@
 ---
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
-import Icon from '../components/Icon.astro';
-import JoinBand from '../components/JoinBand.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../data/site';
 import { coreValues, subteams } from '../data/subteams';
@@ -19,13 +17,6 @@ const groups = [
   { key: 'mentor', title: 'Mentors' },
   { key: 'consultant', title: 'Consultants' },
 ] as const;
-
-const initials = (name: string) =>
-  name
-    .split(' ')
-    .map((part) => part[0])
-    .join('')
-    .slice(0, 2);
 ---
 
 <BaseLayout
@@ -36,46 +27,36 @@ const initials = (name: string) =>
   <section class="intro">
     <div class="container intro-grid">
       <div>
-        <p class="eyebrow">About SubZero</p>
-        <h1>Students, mentors and a whole lot of aluminum.</h1>
+        <h1>About SubZero</h1>
         <p class="lead">
-          {`SubZero Robotics was founded in ${site.founded} at Esko High School and competed in our first FIRST Robotics Competition season in ${site.rookieYear}.`}
+          {`SubZero Robotics was founded in ${site.founded} at Esko High School and competed in its first FIRST Robotics Competition season in ${site.rookieYear}.`}
         </p>
         <p class="story">
           In our rookie year we built T.O.M. from the Kit of Parts and won the Rookie Inspiration Award at the Lake
           Superior Regional. A year later, Sir B.A.R.D. earned an Industrial Design Award and took us to the FIRST
-          Championship in St. Louis. Since then we've won the 2017 Iowa Regional and the 2019 Lake Superior Regional,
-          competed at three FIRST Championships, and earned awards for engineering, controls, creativity, spirit and
-          gracious professionalism.
+          Championship in St. Louis.
+        </p>
+        <p class="story">
+          {`Since then we've won the 2017 Iowa Regional and the 2019 Lake Superior Regional, gone to ${stats.championships} FIRST Championships, and won ${stats.awards} awards for engineering, controls, creativity, spirit and gracious professionalism.`}
         </p>
         <div class="btn-row">
           <a class="btn btn--primary" href={withBase('/history/')}>Season history</a>
-          <a class="btn btn--ghost" href={withBase('/robots/')}>Our robots</a>
+          <a class="textlink" href={withBase('/robots/')}>Our robots</a>
         </div>
       </div>
-      <Image src={teamPhoto} alt="SubZero Robotics with the 2017 Iowa Regional winner banner" class="intro-photo" widths={[480, 640, 960]} sizes="(min-width: 900px) 520px, 100vw" loading="eager" />
-    </div>
-  </section>
-
-  <!-- Stat tiles -->
-  <section class="section section--tight" aria-label="Team at a glance">
-    <div class="container">
-      <dl class="tiles">
-        <div><dd>{stats.seasons}</dd><dt>Seasons competed</dt></div>
-        <div><dd>{stats.awards}</dd><dt>Awards won</dt></div>
-        <div><dd>{stats.regionalWins}</dd><dt>Regional titles</dt></div>
-        <div><dd>{stats.championships}</dd><dt>FIRST Championship trips</dt></div>
-      </dl>
+      <figure>
+        <Image src={teamPhoto} alt="SubZero Robotics with the 2017 Iowa Regional winner banner" class="intro-photo" widths={[480, 640, 960]} sizes="(min-width: 900px) 520px, 100vw" loading="eager" />
+        <figcaption>Winning the Iowa Regional, 2017.</figcaption>
+      </figure>
     </div>
   </section>
 
   <!-- FIRST -->
   <section class="section section--alt" id="first">
     <div class="container first">
-      <Image src={firstPhoto} alt="SubZero's robot on the field during the 2026 season" class="first-photo" widths={[480, 720, 960]} sizes="(min-width: 900px) 540px, 100vw" />
+      <Image src={firstPhoto} alt="A SubZero student running the team's CNC router" class="first-photo" widths={[480, 720, 960]} sizes="(min-width: 900px) 540px, 100vw" />
       <div>
-        <p class="eyebrow">What is FIRST?</p>
-        <h2>The varsity sport for the mind</h2>
+        <h2>What is FIRST?</h2>
         <p>
           <a href="https://www.firstinspires.org/" rel="noopener">FIRST</a> (For Inspiration and Recognition of Science
           and Technology) is a global nonprofit that inspires young people to become leaders and innovators in STEM.
@@ -83,8 +64,8 @@ const initials = (name: string) =>
         <p>
           In the <strong>FIRST Robotics Competition</strong>, high school teams get a new game every January and just a
           few weeks to design, build, wire and program an industrial-sized robot to play it. Teams also raise their own
-          funds, build their brand, run outreach and practice <em>Gracious Professionalism®</em>: competing hard while
-          treating everyone with respect.
+          funds, run outreach and practice <em>Gracious Professionalism®</em>: competing hard while treating everyone
+          with respect.
         </p>
       </div>
     </div>
@@ -94,79 +75,15 @@ const initials = (name: string) =>
   <section class="section" id="departments">
     <div class="container">
       <div class="section-head">
-        <p class="eyebrow">Departments</p>
-        <h2>How the team works</h2>
-        <p class="lead">Every student joins a department, and everyone pitches in at competition.</p>
+        <h2>Departments</h2>
+        <p class="lead">Every student joins a department, and everyone helps out at competitions.</p>
       </div>
-      <ul class="departments" role="list">
+      <dl class="departments">
         {
           subteams.map((t) => (
-            <li class="dept">
-              <span class="icon-badge">
-                <Icon name={t.icon} size={22} />
-              </span>
-              <h3>{t.name}</h3>
-              <p>{t.text}</p>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-  </section>
-
-  <!-- Mentors -->
-  <section class="section section--alt" id="mentors">
-    <div class="container">
-      <div class="section-head">
-        <p class="eyebrow">Coaches, mentors & consultants</p>
-        <h2>The grown-ups in the room</h2>
-      </div>
-      {
-        groups.map((g) => {
-          const list = people.filter((p) => p.data.group === g.key);
-          return (
-            list.length > 0 && (
-              <div class="people-group">
-                <h3 class="group-title">{g.title}</h3>
-                <ul class="people" role="list">
-                  {list.map((p) => (
-                    <li class="person">
-                      <span class="avatar" aria-hidden="true">
-                        {initials(p.data.name)}
-                      </span>
-                      <p class="name">{p.data.name}</p>
-                      {p.data.focus && <p class="focus">{p.data.focus}</p>}
-                      {p.data.job && <p class="job">{p.data.job}</p>}
-                      {p.data.note && (
-                        <p class="pill pill--gold note">
-                          <Icon name="star" size={12} /> {p.data.note}
-                        </p>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )
-          );
-        })
-      }
-    </div>
-  </section>
-
-  <!-- Core values -->
-  <section class="section" id="values">
-    <div class="container">
-      <div class="section-head">
-        <p class="eyebrow">Core values</p>
-        <h2>What we stand for</h2>
-      </div>
-      <dl class="values">
-        {
-          coreValues.map((v, i) => (
             <div>
-              <span class="num">{String(i + 1).padStart(2, '0')}</span>
-              <dt>{v.name}</dt>
-              <dd>{v.text}</dd>
+              <dt>{t.name}</dt>
+              <dd>{t.text}</dd>
             </div>
           ))
         }
@@ -174,81 +91,101 @@ const initials = (name: string) =>
     </div>
   </section>
 
-  <JoinBand />
+  <!-- Coaches and mentors -->
+  <section class="section section--alt" id="mentors">
+    <div class="container people-wrap">
+      <div>
+        <h2>Coaches and mentors</h2>
+        <p class="muted">The adults who volunteer with the team, and what they help with.</p>
+      </div>
+      <div>
+        {
+          groups.map((g) => {
+            const list = people.filter((p) => p.data.group === g.key);
+            return (
+              list.length > 0 && (
+                <div class="people-group">
+                  <h3 class="group-title">{g.title}</h3>
+                  <ul class="people" role="list">
+                    {list.map((p) => (
+                      <li>
+                        <span class="name">{p.data.name}</span>
+                        <span class="focus">
+                          {p.data.focus}
+                          {p.data.note && <span class="award">{p.data.note}</span>}
+                        </span>
+                        <span class="job">{p.data.job}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )
+            );
+          })
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Core values -->
+  <section class="section" id="values">
+    <div class="container">
+      <div class="section-head">
+        <h2>Core values</h2>
+        <p class="lead">The team wrote these together at a 2019 core values session.</p>
+      </div>
+      <div class="values">
+        {
+          coreValues.map((v) => (
+            <p>
+              <strong>{v.name}.</strong> {v.text}
+            </p>
+          ))
+        }
+      </div>
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
   /* Split header */
   .intro {
-    padding-block: clamp(48px, 7vw, 80px) clamp(32px, 5vw, 48px);
+    padding-block: clamp(48px, 7vw, 80px) clamp(40px, 6vw, 64px);
     border-bottom: 1px solid var(--border);
   }
   .intro-grid {
     display: grid;
     gap: clamp(28px, 5vw, 64px);
-    align-items: center;
+    align-items: start;
     grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
   }
   .intro h1 {
-    max-width: 14ch;
     margin-bottom: 0.3em;
   }
   .story {
     color: var(--text-soft);
-    max-width: 58ch;
-    margin-bottom: 24px;
+    max-width: 60ch;
+  }
+  .intro .btn-row {
+    margin-top: 24px;
+  }
+  .intro figure {
+    margin: 0;
+  }
+  figcaption {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    margin-top: 8px;
   }
   .intro :global(.intro-photo),
   .first :global(.first-photo) {
     width: 100%;
-    height: 100%;
     aspect-ratio: 4 / 3;
     object-fit: cover;
-    border: 1px solid var(--border);
   }
   @media (max-width: 900px) {
     .intro-grid {
       grid-template-columns: 1fr;
-    }
-  }
-
-  /* Stat tiles */
-  .section--tight {
-    padding-block: clamp(28px, 4vw, 44px);
-  }
-  .tiles {
-    margin: 0;
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 12px;
-  }
-  .tiles > div {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-top: 3px solid var(--ice-300);
-    padding: 20px 22px;
-  }
-  .tiles dd {
-    margin: 0;
-    font-family: var(--font-display);
-    font-stretch: 72%;
-    font-weight: 900;
-    font-size: clamp(2.4rem, 5vw, 3.4rem);
-    line-height: 1;
-    font-variant-numeric: tabular-nums;
-  }
-  .tiles dt {
-    font-family: var(--font-label);
-    font-weight: 600;
-    font-size: 0.82rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-top: 6px;
-  }
-  @media (max-width: 700px) {
-    .tiles {
-      grid-template-columns: 1fr 1fr;
     }
   }
 
@@ -271,140 +208,107 @@ const initials = (name: string) =>
     }
   }
 
-  /* Departments */
-  .departments,
+  /* Departments: a plain two-column list */
+  .departments {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: clamp(24px, 5vw, 72px);
+  }
+  .departments > div {
+    display: grid;
+    grid-template-columns: 11rem 1fr;
+    gap: 16px;
+    padding-block: 14px;
+    border-top: 1px solid var(--border);
+  }
+  .departments dt {
+    font-weight: 600;
+  }
+  .departments dd {
+    margin: 0;
+    color: var(--text-soft);
+    font-size: 0.98rem;
+  }
+  @media (max-width: 860px) {
+    .departments {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 480px) {
+    .departments > div {
+      grid-template-columns: 1fr;
+      gap: 2px;
+    }
+  }
+
+  /* Coaches and mentors: a simple table-like list */
+  .people-wrap {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 24px clamp(24px, 5vw, 72px);
+  }
+  .people-group + .people-group {
+    margin-top: 28px;
+  }
+  .group-title {
+    font-family: var(--font-body);
+    font-stretch: normal;
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
   .people {
     list-style: none;
     padding: 0;
     margin: 0;
+  }
+  .people li {
     display: grid;
-  }
-  .departments {
-    gap: 12px;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
-  }
-  .dept {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 22px;
-  }
-  .dept h3 {
-    margin: 14px 0 6px;
-    font-size: 1.4rem;
-  }
-  .dept p {
-    margin: 0;
-    color: var(--text-muted);
-    font-size: 0.93rem;
-    line-height: 1.45;
-  }
-  .icon-badge {
-    display: inline-grid;
-    place-items: center;
-    width: 44px;
-    height: 44px;
-    color: var(--ice-300);
-    border: 1px solid rgb(143 211 255 / 0.4);
-    background: rgb(143 211 255 / 0.08);
-  }
-
-  /* Mentors */
-  .people {
-    gap: 12px;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr));
-  }
-  .people-group + .people-group {
-    margin-top: 32px;
-  }
-  .group-title {
-    font-family: var(--font-label);
-    font-stretch: normal;
-    font-weight: 700;
-    font-size: 0.9rem;
-    letter-spacing: 0.18em;
-    color: var(--ice-300);
-    margin-bottom: 12px;
-  }
-  .person {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 22px 16px;
-    text-align: center;
-  }
-  .avatar {
-    display: grid;
-    place-items: center;
-    width: 72px;
-    height: 72px;
-    margin: 0 auto 12px;
-    border-radius: 50%;
-    font-family: var(--font-display);
-    font-stretch: 72%;
-    font-weight: 900;
-    font-size: 1.5rem;
-    color: var(--on-primary);
-    background: linear-gradient(140deg, var(--ice-200), var(--ice-300));
-  }
-  .person p {
-    margin: 0;
-    line-height: 1.4;
+    grid-template-columns: 11rem 1fr 1fr;
+    gap: 4px 16px;
+    padding-block: 10px;
+    border-top: 1px solid var(--border);
+    font-size: 0.98rem;
   }
   .name {
     font-weight: 600;
-    font-size: 1.05rem;
   }
   .focus {
-    color: var(--ice-300);
+    color: var(--text-soft);
+  }
+  .focus .award {
+    display: block;
     font-size: 0.9rem;
   }
   .job {
     color: var(--text-muted);
-    font-size: 0.85rem;
   }
-  .note {
-    margin-top: 10px !important;
-    font-size: 0.75rem;
+  @media (max-width: 860px) {
+    .people-wrap {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 640px) {
+    .people li {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
   }
 
   /* Core values */
   .values {
-    margin: 0;
-    display: grid;
-    gap: 12px;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    columns: 2 320px;
+    column-gap: clamp(24px, 5vw, 72px);
   }
-  .values > div {
-    border: 1px solid var(--border);
-    padding: 20px;
+  .values p {
+    break-inside: avoid;
+    margin-bottom: 14px;
+    color: var(--text-soft);
   }
-  .num {
-    font-family: var(--font-label);
-    font-weight: 700;
-    letter-spacing: 0.16em;
-    color: var(--gold-400);
-  }
-  .values dt {
-    font-family: var(--font-display);
-    font-stretch: 72%;
-    font-weight: 900;
-    font-size: 1.6rem;
-    text-transform: uppercase;
-    margin: 4px 0 6px;
-  }
-  .values dd {
-    margin: 0;
-    font-size: 0.92rem;
-    color: var(--text-muted);
-    line-height: 1.45;
-  }
-  @media (max-width: 900px) {
-    .values {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-  @media (max-width: 480px) {
-    .values {
-      grid-template-columns: 1fr;
-    }
+  .values strong {
+    color: var(--text);
+    font-weight: 600;
   }
 </style>

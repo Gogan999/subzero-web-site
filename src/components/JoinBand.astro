@@ -1,27 +1,24 @@
 ---
-// Photo band inviting students to join, with the department list as chips.
+// Photo band inviting students to join, with the departments written out as a sentence.
 import { Image } from 'astro:assets';
 import { subteams } from '../data/subteams';
 import { withBase } from '../lib/url';
-import Icon from './Icon.astro';
 import photo from '../assets/gallery/2026-season-highlights/05.jpg';
+
+const names = subteams.map((t) => t.name.replace(/ & /g, ' and ').toLowerCase().replace('cad', 'CAD'));
+const departments = `${names.slice(0, -1).join(', ')} and ${names.at(-1)}`;
 ---
 
 <section class="join">
   <Image src={photo} alt="" class="bg" widths={[640, 960, 1280, 1600]} sizes="100vw" />
   <div class="container">
-    <p class="eyebrow">Join SubZero</p>
-    <h2>Build something that moves.</h2>
+    <h2>Join the team</h2>
     <p class="text">
-      Esko High School students: whether you love to build, code, design, write, plan or lead, there's a place for you
-      on SubZero. No experience needed.
+      {`Any Esko High School student can join, and no experience is needed. Students work in one of ${subteams.length} departments: ${departments}.`}
     </p>
-    <ul class="chips" role="list">
-      {subteams.map((t) => <li>{t.name}</li>)}
-    </ul>
     <div class="btn-row">
-      <a class="btn btn--accent" href={withBase('/contact/#join')}>How to join <Icon name="arrow-right" size={18} /></a>
-      <a class="btn btn--ghost" href={withBase('/sponsors/')}>Support the team</a>
+      <a class="btn btn--primary" href={withBase('/contact/#join')}>How to join</a>
+      <a class="textlink" href={withBase('/sponsors/')}>Support the team</a>
     </div>
   </div>
 </section>
@@ -47,33 +44,11 @@ import photo from '../assets/gallery/2026-season-highlights/05.jpg';
     position: absolute;
     inset: 0;
     z-index: -1;
-    background: linear-gradient(90deg, rgb(5 11 22 / 0.94) 0%, rgb(5 11 22 / 0.7) 50%, rgb(5 11 22 / 0.25) 100%);
-  }
-  h2 {
-    max-width: 14ch;
+    background: linear-gradient(90deg, rgb(8 17 31 / 0.95) 35%, rgb(8 17 31 / 0.55) 100%);
   }
   .text {
-    max-width: 48ch;
+    max-width: 54ch;
+    margin-bottom: 24px;
     color: var(--text-soft);
-  }
-  .chips {
-    list-style: none;
-    padding: 0;
-    margin: 22px 0 28px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    max-width: 640px;
-  }
-  .chips li {
-    font-family: var(--font-label);
-    font-weight: 600;
-    font-size: 0.85rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 6px 12px;
-    border: 1px solid rgb(143 211 255 / 0.4);
-    color: var(--ice-200);
-    background: rgb(5 11 22 / 0.5);
   }
 </style>

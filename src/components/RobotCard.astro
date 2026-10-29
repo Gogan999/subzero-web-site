@@ -1,49 +1,37 @@
 ---
 import { Image } from 'astro:assets';
 import type { Robot } from '../lib/content';
-import Icon from './Icon.astro';
 
 interface Props {
   robot: Robot;
+  /** The current robot: spans two columns with the photo beside the text. */
   featured?: boolean;
 }
 const { robot, featured = false } = Astro.props;
-const title = robot.name ?? `${robot.year} Robot`;
+const title = robot.name ?? `${robot.year} robot`;
 ---
 
 <article class:list={['robot-card', { featured }]} id={`robot-${robot.year}`}>
   <div class="media">
     {
       robot.image ? (
-        <Image src={robot.image} alt={`${title}, SubZero's ${robot.year} robot`} width={640} height={440} fit="cover" widths={[400, 640, 900]} sizes="(min-width: 1100px) 360px, (min-width: 700px) 45vw, 100vw" />
+        <Image src={robot.image} alt={`${title}, SubZero's ${robot.year} robot`} width={featured ? 900 : 640} height={featured ? 620 : 440} fit="cover" widths={featured ? [480, 720, 900] : [400, 640, 900]} sizes={featured ? '(min-width: 1100px) 460px, (min-width: 700px) 50vw, 100vw' : '(min-width: 1100px) 360px, (min-width: 700px) 45vw, 100vw'} />
       ) : (
-        <div class="placeholder frost" aria-hidden="true">
-          <Icon name="bot" size={56} />
-          <span>Photo coming soon</span>
-        </div>
+        <div class="placeholder" aria-hidden="true">Photo coming soon</div>
       )
     }
-    <span class="year">{robot.year}</span>
   </div>
   <div class="body">
-    <p class="game">{robot.game}</p>
+    <p class="meta">{robot.year} · {robot.game}{featured && ' · current robot'}</p>
     <h3>{title}</h3>
     {robot.summary && <p class="summary">{robot.summary}</p>}
-    {
-      robot.specs.length > 0 && (
-        <ul class="specs" role="list">
-          {robot.specs.map((s) => (
-            <li>{s}</li>
-          ))}
-        </ul>
-      )
-    }
+    {robot.specs.length > 0 && <p class="specs">{robot.specs.join(' · ')}</p>}
     {
       robot.awards.length > 0 && (
-        <ul class="awards" role="list">
+        <ul class="award-list">
           {robot.awards.map((a) => (
-            <li class="pill pill--gold" title={a.event}>
-              <Icon name="trophy" size={12} /> {a.name.replace(/ sponsored by .*/, '')}
+            <li>
+              {a.name.replace(/ sponsored by .*/, '')}, {a.event}
             </li>
           ))}
         </ul>
@@ -51,23 +39,23 @@ const title = robot.name ?? `${robot.year} Robot`;
     }
     {
       (robot.binder || robot.onshape || robot.video) && (
-        <div class="links">
+        <p class="links">
           {robot.binder && (
-            <a class="btn btn--primary btn--sm" href={robot.binder} rel="noopener" target="_blank">
-              <Icon name="pen" size={16} /> Technical binder
+            <a href={robot.binder} rel="noopener" target="_blank">
+              Technical binder
             </a>
           )}
           {robot.onshape && (
-            <a class="btn btn--ghost btn--sm" href={robot.onshape} rel="noopener" target="_blank">
-              <Icon name="box" size={16} /> CAD model
+            <a href={robot.onshape} rel="noopener" target="_blank">
+              CAD model
             </a>
           )}
           {robot.video && (
-            <a class="btn btn--ghost btn--sm" href={robot.video} rel="noopener" target="_blank">
+            <a href={robot.video} rel="noopener" target="_blank">
               Watch
             </a>
           )}
-        </div>
+        </p>
       )
     }
   </div>
@@ -77,21 +65,22 @@ const title = robot.name ?? `${robot.year} Robot`;
   .robot-card {
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    transition: border-color 0.2s ease;
-  }
-  .robot-card:hover {
-    border-color: rgb(143 211 255 / 0.5);
+    min-width: 0;
   }
   .featured {
-    border-color: var(--gold-400);
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 0 28px;
+    align-items: start;
   }
   .media {
-    position: relative;
     aspect-ratio: 16 / 11;
-    background: var(--navy-900);
+    background: var(--surface);
+    margin-bottom: 14px;
+  }
+  .featured .media {
+    margin: 0;
   }
   .media :global(img) {
     width: 100%;
@@ -101,95 +90,62 @@ const title = robot.name ?? `${robot.year} Robot`;
   .placeholder {
     height: 100%;
     display: grid;
-    place-content: center;
-    justify-items: center;
-    gap: 8px;
-    color: rgb(143 211 255 / 0.65);
-    font-family: var(--font-label);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-  }
-  .year {
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 6px 12px;
-    background: rgb(5 11 22 / 0.88);
-    color: #fff;
-    font-family: var(--font-display);
-    font-stretch: 72%;
-    font-weight: 900;
-    font-size: 1.15rem;
-    letter-spacing: 0.02em;
-  }
-  .featured .year {
-    background: var(--gold-400);
-    color: var(--on-accent);
+    place-items: center;
+    color: var(--text-muted);
+    font-size: 0.95rem;
   }
   .body {
-    padding: 18px 20px 20px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    flex: 1;
+    gap: 8px;
   }
   .body > * {
     margin: 0;
   }
-  .game {
-    font-family: var(--font-label);
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--ice-300);
-  }
   h3 {
-    font-size: 2rem;
+    font-size: 1.6rem;
+    font-stretch: 78%;
+    font-weight: 750;
+  }
+  .featured h3 {
+    font-size: 2.4rem;
   }
   .summary {
     color: var(--text-soft);
-    font-size: 0.95rem;
-    line-height: 1.5;
+    font-size: 0.98rem;
+    line-height: 1.55;
   }
   .specs {
-    list-style: none;
-    padding: 0;
-    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    line-height: 1.5;
   }
-  .specs li {
-    display: flex;
-    gap: 10px;
-    padding: 6px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 0.88rem;
-    line-height: 1.4;
-  }
-  .specs li::before {
-    content: '';
-    width: 6px;
-    height: 6px;
-    margin-top: 7px;
-    flex: none;
-    background: var(--ice-300);
-    transform: rotate(45deg);
-  }
-  .awards {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-  .awards .pill {
-    font-size: 0.75rem;
+  .award-list {
+    font-size: 0.93rem;
   }
   .links {
-    margin-top: auto;
-    padding-top: 6px;
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 6px 20px;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  @media (max-width: 1000px) {
+    .featured {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (max-width: 700px) {
+    .featured {
+      grid-template-columns: 1fr;
+    }
+    .featured .media {
+      margin-bottom: 14px;
+    }
+  }
+  @media (max-width: 640px) {
+    .featured {
+      grid-column: auto;
+    }
   }
 </style>

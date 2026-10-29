@@ -16,7 +16,7 @@
 - id: laura-zimny
   name: "Laura Zimny"
   group: mentor
-  focus: "Strategy, Team Opperations"
+  focus: "Strategy, Team Operations"
   job: "Chemistry/Physical Science, Esko Public Schools"
   note: "2025 Woodie Flowers Finalist"
 - id: jerry-frederick
@@ -36,15 +36,9 @@
 - id: Josh-Michaud
   name: "Josh Michaud"
   group: mentor
-  focus: "Programing"
+  focus: "Programming"
 - id: Levi-Belland
   name: "Levi Belland"
   group: mentor
-  focus: "Programing"
+  focus: "Programming"
   job: "Lumyn Labs, Rip Saw Robotics"
-
-- id: test
-  name: "John Doe"
-  group: consultant
-  focus: "Consultanting"
-

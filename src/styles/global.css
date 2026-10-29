@@ -2,8 +2,9 @@
    SubZero Robotics: design tokens and base styles
    ========================================================================== */
 
-/* One dark look for the whole site (the "Combined" mockup): A's navy, ice and gold,
-   C's condensed Archivo headings, Barlow body text and Barlow Condensed labels. */
+/* One dark look for the whole site: navy, ice and gold, condensed Archivo headings in
+   normal case, Barlow body text and Barlow Condensed for small metadata.
+   Gold is for actions (buttons) and awards; ice blue is for links. */
 :root {
   /* Brand palette */
   --navy-950: #050b16;
@@ -20,16 +21,16 @@
   --gold-500: #f5a70b;
 
   /* Semantic tokens */
-  --bg: #050b16;
-  --surface: #0c1626;
-  --surface-2: #0c1626;
+  --bg: #08111f;
+  --surface: #0f1b30;
+  --surface-2: #0f1b30;
   --text: #e8f1ff;
   --text-soft: #c9d6ea;
   --text-muted: #8ea3c2;
-  --border: #1c2a42;
-  --primary: var(--ice-300);
-  --primary-hover: var(--ice-200);
-  --on-primary: #04121f;
+  --border: #223250;
+  --primary: var(--gold-400);
+  --primary-hover: #ffcc45;
+  --on-primary: #1d1400;
   --link: var(--ice-300);
   --accent: var(--gold-400);
   --on-accent: #1d1400;
@@ -45,8 +46,8 @@
   /* Layout */
   --container: 1180px;
   --gutter: clamp(16px, 4vw, 32px);
-  --radius: 2px;
-  --radius-sm: 2px;
+  --radius: 3px;
+  --radius-sm: 3px;
   --header-h: 68px;
 
   color-scheme: dark;
@@ -92,23 +93,24 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
-  font-stretch: 72%;
-  font-weight: 900;
-  text-transform: uppercase;
-  line-height: 0.98;
-  letter-spacing: 0.005em;
+  font-stretch: 78%;
+  font-weight: 750;
+  line-height: 1.04;
+  letter-spacing: -0.005em;
   margin: 0 0 0.5em;
   text-wrap: balance;
 }
 h1 {
-  font-size: clamp(2.6rem, 7vw, 4.6rem);
+  font-size: clamp(2.6rem, 7vw, 4.4rem);
 }
 h2 {
-  font-size: clamp(2rem, 4.6vw, 3.2rem);
+  font-size: clamp(1.9rem, 4.2vw, 2.8rem);
 }
 h3 {
-  font-size: 1.5rem;
-  font-weight: 800;
+  font-size: 1.4rem;
+  font-stretch: 80%;
+  font-weight: 700;
+  line-height: 1.1;
 }
 p {
   margin: 0 0 1em;
@@ -132,6 +134,14 @@ ol {
 }
 
 /* ---------- Utilities ---------- */
+/* Small grey metadata: dates, game names, places. */
+.meta {
+  font-family: var(--font-label);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
 .container {
   width: 100%;
   max-width: calc(var(--container) + var(--gutter) * 2);
@@ -173,17 +183,17 @@ ol {
 .skip-link:focus {
   top: 12px;
 }
+/* Only for a label that adds a fact (a date, a season), never a repeat of the heading. */
 .eyebrow {
   display: flex;
   align-items: center;
   gap: 0.5em;
   font-family: var(--font-label);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   font-weight: 600;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--ice-300);
-  margin-bottom: 0.9rem;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  margin-bottom: 0.6rem;
 }
 .lead {
   font-size: clamp(1.05rem, 1.4vw, 1.18rem);
@@ -230,24 +240,18 @@ ol {
   gap: 0.5em;
   min-height: 46px;
   padding: 0.7em 1.35em;
-  border-radius: 0;
+  border-radius: var(--radius);
   border: 2px solid transparent;
-  font-family: var(--font-label);
-  font-weight: 700;
-  font-size: 0.95rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1.02rem;
   line-height: 1.2;
   text-decoration: none;
   cursor: pointer;
   transition:
     background-color 0.15s ease,
     border-color 0.15s ease,
-    color 0.15s ease,
-    transform 0.15s ease;
-}
-.btn:hover {
-  transform: translateY(-1px);
+    color 0.15s ease;
 }
 .btn--primary {
   background: var(--primary);
@@ -264,26 +268,28 @@ ol {
   background: var(--gold-500);
 }
 .btn--ghost {
-  border-color: var(--ice-300);
-  color: var(--ice-300);
+  border-color: var(--border);
+  color: var(--text);
   background: transparent;
 }
 .btn--ghost:hover {
-  background: rgb(143 211 255 / 0.1);
+  border-color: var(--text-muted);
 }
 .btn-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  align-items: center;
+  gap: 12px 24px;
+}
+/* A secondary action next to a button: a plain underlined link. */
+.textlink {
+  font-weight: 600;
 }
 .link-arrow {
   display: inline-flex;
   align-items: center;
   gap: 0.35em;
-  font-family: var(--font-label);
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-weight: 600;
   text-decoration: none;
 }
 .link-arrow:hover {
@@ -320,21 +326,31 @@ ol {
   display: inline-flex;
   align-items: center;
   gap: 0.4em;
-  padding: 0.35em 0.7em;
-  border-radius: 0;
+  padding: 0.25em 0.6em;
+  border-radius: var(--radius-sm);
   font-family: var(--font-label);
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
   background: var(--surface-2);
   color: var(--text-muted);
   border: 1px solid var(--border);
 }
-.pill--gold {
-  background: var(--gold-400);
-  border-color: var(--gold-400);
-  color: var(--on-accent);
+/* Awards: plain text with a gold star, not a badge. */
+.award-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-soft);
+}
+.award-list li::before,
+.award::before {
+  content: '★ ';
+  color: var(--gold-400);
+}
+.award {
+  color: var(--text-soft);
 }
 
 /* ---------- Dark band (hero / page headers / footer) ---------- */
@@ -346,7 +362,7 @@ ol {
   overflow: hidden;
 }
 .frost .eyebrow {
-  color: var(--ice-300);
+  color: var(--text-soft);
 }
 .frost .lead {
   color: var(--text-soft);
@@ -358,8 +374,8 @@ ol {
 /* Ice-blue outlined year numerals and section-head links. */
 .ghost-num {
   font-family: var(--font-display);
-  font-stretch: 72%;
-  font-weight: 900;
+  font-stretch: 78%;
+  font-weight: 750;
   color: transparent;
   -webkit-text-stroke: 1.5px var(--ice-300);
   font-variant-numeric: tabular-nums;

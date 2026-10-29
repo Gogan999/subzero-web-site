@@ -1,15 +1,13 @@
-import type { IconName } from '../components/Icon.astro';
-
-// The departments students can join. Shown on the home and About pages.
-export const subteams: { name: string; icon: IconName; text: string }[] = [
-  { name: 'Design & CAD', icon: 'box', text: 'Turn strategy into mechanisms: sketch, prototype and model the robot in CAD.' },
-  { name: 'Fabrication', icon: 'wrench', text: 'Machine, cut, drill and assemble. Our shop turns raw aluminum into a robot.' },
-  { name: 'Electrical', icon: 'zap', text: 'Wire the power distribution, motor controllers, sensors and pneumatics, cleanly and safely.' },
-  { name: 'Programming', icon: 'code', text: 'Write the code that drives the robot, from teleop controls to autonomous routines and vision.' },
-  { name: 'Strategy & Scouting', icon: 'chart', text: 'Break down the game, scout every match and help pick the right alliance partners.' },
-  { name: 'Business & Outreach', icon: 'megaphone', text: 'Find sponsors, plan fundraisers and share STEM with our community.' },
-  { name: 'Media & Design', icon: 'camera', text: 'Photos, video, social media, graphic design and the team look that makes SubZero, SubZero.' },
-  { name: 'Safety', icon: 'shield', text: 'Keep everyone safe in the shop and the pits, and build a culture of safety on the team.' },
+// The departments students can join. Shown on the About page and in the join band.
+export const subteams: { name: string; text: string }[] = [
+  { name: 'Design & CAD', text: 'Turn strategy into mechanisms: sketch, prototype and model the robot in CAD.' },
+  { name: 'Fabrication', text: 'Machine, cut, drill and assemble. Our shop turns raw aluminum into a robot.' },
+  { name: 'Electrical', text: 'Wire the power distribution, motor controllers, sensors and pneumatics, cleanly and safely.' },
+  { name: 'Programming', text: 'Write the code that drives the robot, from teleop controls to autonomous routines and vision.' },
+  { name: 'Strategy & Scouting', text: 'Break down the game, scout every match and help pick the right alliance partners.' },
+  { name: 'Business & Outreach', text: 'Find sponsors, plan fundraisers and share STEM with our community.' },
+  { name: 'Media & Design', text: 'Photos, video, social media, graphic design and the team look that makes SubZero, SubZero.' },
+  { name: 'Safety', text: 'Keep everyone safe in the shop and the pits, and build a culture of safety on the team.' },
 ];
 
 // Written by the team at a 2019 core values session.

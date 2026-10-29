@@ -3,7 +3,6 @@ import type { CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
 import { formatDate } from '../lib/content';
 import { withBase } from '../lib/url';
-import Icon from './Icon.astro';
 
 interface Props {
   post: CollectionEntry<'news'>;
@@ -13,22 +12,18 @@ const { post, headingLevel: Heading = 'h3' } = Astro.props;
 const { title, date, summary, cover, coverAlt, tags } = post.data;
 ---
 
-<article class="news-card card">
-  <div class="media">
-    {
-      cover ? (
+<article class="news-card">
+  {
+    cover && (
+      <div class="media">
         <Image src={cover} alt={coverAlt ?? ''} width={640} height={400} fit="cover" widths={[400, 640, 800]} sizes="(min-width: 1200px) 380px, (min-width: 700px) 45vw, 100vw" />
-      ) : (
-        <div class="placeholder frost" aria-hidden="true">
-          <Icon name="snowflake" size={56} />
-        </div>
-      )
-    }
-  </div>
+      </div>
+    )
+  }
   <div class="body">
     <p class="meta">
       <time datetime={date.toISOString()}>{formatDate(date)}</time>
-      {tags[0] && <span class="pill">{tags[0]}</span>}
+      {tags[0] && <span class="tag">· {tags[0]}</span>}
     </p>
     <Heading class="title">
       <a href={withBase(`/news/${post.id}/`)}>{title}</a>
@@ -41,15 +36,16 @@ const { title, date, summary, cover, coverAlt, tags } = post.data;
   .news-card {
     display: flex;
     flex-direction: column;
-    overflow: hidden;
     position: relative;
-    transition:
-      transform 0.2s ease,
-      box-shadow 0.2s ease;
+    border-top: 1px solid var(--border);
+    padding-top: 18px;
   }
-  .news-card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-md);
+  .news-card:has(.media) {
+    border-top: 0;
+    padding-top: 0;
+  }
+  .news-card:hover .title a {
+    text-decoration: underline;
   }
   .media {
     aspect-ratio: 16 / 10;
@@ -61,14 +57,8 @@ const { title, date, summary, cover, coverAlt, tags } = post.data;
     height: 100%;
     object-fit: cover;
   }
-  .placeholder {
-    height: 100%;
-    display: grid;
-    place-items: center;
-    color: rgb(143 211 255 / 0.6);
-  }
   .body {
-    padding: 20px 22px 24px;
+    padding: 14px 0 0;
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -77,10 +67,8 @@ const { title, date, summary, cover, coverAlt, tags } = post.data;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 8px 12px;
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    margin-bottom: 10px;
+    gap: 4px 6px;
+    margin-bottom: 6px;
   }
   .title {
     font-size: 1.25rem;
@@ -104,13 +92,14 @@ const { title, date, summary, cover, coverAlt, tags } = post.data;
     outline-offset: 3px;
   }
   .summary {
-    color: var(--text-muted);
+    color: var(--text-soft);
     font-size: 0.98rem;
     margin: 0;
   }
   @media (max-width: 640px) {
     .news-card {
       flex-direction: row;
+      gap: 14px;
     }
     .media {
       flex: none;
@@ -118,13 +107,13 @@ const { title, date, summary, cover, coverAlt, tags } = post.data;
       aspect-ratio: auto;
     }
     .body {
-      padding: 12px 14px;
+      padding: 0;
     }
     .meta {
       margin-bottom: 4px;
       font-size: 0.78rem;
     }
-    .meta .pill {
+    .meta .tag {
       display: none;
     }
     .title {
@@ -137,10 +126,6 @@ const { title, date, summary, cover, coverAlt, tags } = post.data;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
-    }
-    .placeholder :global(svg) {
-      width: 32px;
-      height: 32px;
     }
   }
 </style>

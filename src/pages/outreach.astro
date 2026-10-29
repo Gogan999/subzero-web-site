@@ -1,7 +1,5 @@
 ---
 import { Image } from 'astro:assets';
-import Icon from '../components/Icon.astro';
-import JoinBand from '../components/JoinBand.astro';
 import PageHeader from '../components/PageHeader.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { withBase } from '../lib/url';
@@ -81,8 +79,7 @@ const programs = [
 >
   <PageHeader
     image={legoCamp}
-    eyebrow="Community outreach"
-    title="Sharing STEM with our community"
+    title="Outreach"
     lead="Building robots is only half of what we do. We work to inspire younger students, support fellow teams and give back to the community that supports us."
   />
 
@@ -91,15 +88,15 @@ const programs = [
       <ul class="programs" role="list">
         {
           programs.map((p) => (
-            <li class="program card">
+            <li class="program">
               <div class="media">
                 <Image src={p.image} alt={p.alt} width={600} height={360} fit="cover" widths={[400, 600, 900]} sizes="(min-width: 1100px) 360px, (min-width: 700px) 45vw, 100vw" />
               </div>
               <div class="body">
                 <h2>{p.title}</h2>
                 <p>{p.text}</p>
-                <a class="link-arrow" href={withBase(`/gallery/${p.album}/`)}>
-                  <Icon name="camera" size={16} /> View photos
+                <a class="photos-link" href={withBase(`/gallery/${p.album}/`)}>
+                  View photos
                 </a>
               </div>
             </li>
@@ -110,8 +107,7 @@ const programs = [
   </section>
 
   <section class="section section--alt">
-    <div class="container narrow center">
-      <p class="eyebrow">Invite us</p>
+    <div class="container narrow">
       <h2>Want SubZero at your event?</h2>
       <p class="lead">
         Schools, libraries, festivals and community groups: we'd love to bring a robot and talk STEM with your audience.
@@ -119,8 +115,6 @@ const programs = [
       <a class="btn btn--primary" href={withBase('/contact/')}>Get in touch</a>
     </div>
   </section>
-
-  <JoinBand />
 </BaseLayout>
 
 <style>
@@ -129,13 +123,12 @@ const programs = [
     padding: 0;
     margin: 0;
     display: grid;
-    gap: 18px;
+    gap: 40px 28px;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
   }
   .program {
     display: flex;
     flex-direction: column;
-    overflow: hidden;
   }
   .media :global(img) {
     width: 100%;
@@ -143,30 +136,27 @@ const programs = [
     object-fit: cover;
   }
   .body {
-    padding: 16px 18px 18px;
+    padding-top: 14px;
     display: flex;
     flex-direction: column;
     flex: 1;
   }
   .body h2 {
-    font-size: 1.2rem;
+    font-size: 1.35rem;
     margin-bottom: 6px;
   }
   .body p {
-    color: var(--text-muted);
-    font-size: 0.95rem;
+    color: var(--text-soft);
+    font-size: 0.97rem;
     line-height: 1.5;
     margin-bottom: 10px;
   }
-  .body .link-arrow {
+  .photos-link {
     margin-top: auto;
-    font-size: 0.92rem;
+    font-weight: 600;
+    font-size: 0.95rem;
   }
-  .center {
-    text-align: center;
-  }
-  .center .lead {
-    margin-inline: auto;
+  .narrow .lead {
     margin-bottom: 18px;
   }
 </style>
